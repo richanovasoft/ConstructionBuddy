@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "156550328123",
+    "firebase_url": "https://constructionbuddy-98d10.firebaseio.com",
+    "project_id": "constructionbuddy-98d10",
+    "storage_bucket": "constructionbuddy-98d10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156550328123:android:3c27a9b0cff6c01a",
+        "android_client_info": {
+          "package_name": "com.consturctionbuddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "156550328123-qvqko4gf1ovs7n514l6f1ja8e6iitoj8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.consturctionbuddy",
+            "certificate_hash": "97eb11d116f1504561dafc206459645c885f6f07"
+          }
+        },
+        {
+          "client_id": "156550328123-c3rhfkm3bhovli1nno5rglbmkmulno6u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3FK0AQCbboTvnkjvIRC5oGplHL6dY40c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "156550328123-c3rhfkm3bhovli1nno5rglbmkmulno6u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

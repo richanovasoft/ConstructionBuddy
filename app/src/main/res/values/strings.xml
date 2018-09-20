@@ -1,3 +1,74 @@
 <resources>
     <string name="app_name">Consturction Buddy</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="backCountMsg">Press Back again to exit.</string>
+    <string name="LoginText">Login </string>
+    <string name="RegisterAlreadyAccountTxt">ALREADY HAVE ACCOUNT ? </string>
+    <string name="LoginFailedMsg">Unable to Login. Please try again</string>
+    <string name="InternetErrorMsg">Please check your Internet connection.</string>
+    <string name="VolleyErrorMsg">Internal server error!Please try again in 5 minutes.</string>
+    <string name="ErrorMsg">Internal server error!Please try again in 5 minutes.</string>
+    <string name="WakeUpInternetConnectionMsg">Wake up your Connection!</string>
+    <string name="ServerIntenetMsg">Your internet seems too slow to reach our server</string>
+    <string name="TryAgainTxt">Try Again</string>
+
+    <string name="CancelText">Cancel</string>
+    <string name="DoneText">Reset</string>
+    <string name="OkText">OK</string>
+
+
+    <string name="LoginUserNameTxt">Please enter email</string>
+    <string name="LoginUserNameTxt1">Please enter name</string>
+    <string name="UserAddress">Please enter address</string>
+    <string name="UserAge">Please enter age</string>
+    <string name="UserPhoneNo">Please enter phone number</string>
+    <string name="UserRelativePhoneNo">Please enter phone number</string>
+    <string name="UserRelativeName">Please enter phone number</string>
+    <string name="UserRelativeRelationShip">Please enter relationship</string>
+    <string name="UserRelative">Please enter email</string>
+    <string name="LoginUserNameWithEmailTxt">Please enter email</string>
+    <string name="LoginPasswordTxt">Please enter password</string>
+
+
+    <string name="RegistrationFailedTitle">Failed</string>
+    <string name="RegistrationFailedMsg">Unable to register. Please try again</string>
+    <string name="RegisterSuccessfulTitle">Registered successfully</string>
+    <string name="RegistrationSuccessfulMsg">Congratulations! You registered successfully.</string>
+
+    <string name="RegisterFirstNameHint">First name</string>
+    <string name="RegisterLastNameHint">Last name</string>
+    <string name="LoginUserName">Full Name</string>
+    <string name="RegisterEmailHint">Email</string>
+    <string name="RegisterPasswordHint">Password</string>
+    <string name="RegisterMobileNo">Contact No</string>
+    <string name="RegisterConfirmPassword">Confirm Password</string>
+    <string name="RegisterReferralHint">Have referral code</string>
+    <string name="RegisterJoinBtnText">Join Now</string>
+    <string name="RegisterTermText">Terms of Use</string>
+    <string name="RegisterSignInTxt">&#160;SIGN IN</string>
+    <string name="RegisterContactUs">Contact Us</string>
+
+    <string name="RegisterUserNameTxt">Please enter full name</string>
+    <string name="RegisterEmptyEmail">Please enter email</string>
+    <string name="RegisterInvalidEmail">Please enter valid email</string>
+    <string name="RegisterEmptyPassword">Please enter password</string>
+    <string name="RegisterPasswordMinimumLength">Password Min length 5 characters </string>
+    <string name="RegisterPasswordMinimumLength1">Please enter 10 digit mobile number </string>
+    <string name="RegisterEmptyConfirmPassword">Please reenter password</string>
+    <string name="RegisterPasswordMisMatch">Password mismatch</string>
+    <string name="RegisterTermAndCondition">Please accept terms and condition</string>
+
+    <string name="SendText">Send</string>
 </resources>
