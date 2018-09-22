@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Consturction Buddy</string>
 
+
+
+    <string name="facebook_app_id">1963117790449634</string>
+    <string name="fb_login_protocol_scheme">fb1963117790449634</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -13,6 +17,13 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+
+    <string name="drawer_open">Drawer open</string>
+    <string name="drawer_close">Drawer close</string>
+
+
+    <string name="demoText">demo</string>
     <string name="backCountMsg">Press Back again to exit.</string>
     <string name="LoginText">Login </string>
     <string name="RegisterAlreadyAccountTxt">ALREADY HAVE ACCOUNT ? </string>

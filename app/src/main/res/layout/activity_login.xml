@@ -5,128 +5,215 @@
     android:layout_height="match_parent">
 
 
-    <RelativeLayout
-        android:id="@+id/rl_img"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:padding="2dp">
-
-
-        <ImageView
-            android:id="@+id/iv_login_logo"
-            android:layout_width="120dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            tools:ignore="ContentDescription" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_middle"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:padding="@dimen/activity_user_registration_layout_left_padding">
+        android:scrollbars="none">
 
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
+            android:layout_gravity="center"
+            android:gravity="center">
 
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/til1"
+            <RelativeLayout
+                android:id="@+id/rl_middle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="7dp">
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:padding="@dimen/activity_user_registration_layout_left_padding">
 
-                <com.consturctionbuddy.custom.CustomEditText
-                    android:id="@+id/email"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"
-                    android:textCursorDrawable="@null"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/til2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="7dp"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/colorBlack">
-
-                <com.consturctionbuddy.custom.CustomEditText
-                    android:id="@+id/password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Password"
-                    android:inputType="textPassword"
-                    android:textCursorDrawable="@null"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
+                    android:layout_marginBottom="20dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp">
 
 
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/round_btn_primary"
-                android:text="@string/LoginText"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp" />
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/til1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp">
+
+                        <com.consturctionbuddy.custom.CustomEditText
+                            android:id="@+id/email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Email"
+                            android:inputType="textEmailAddress"
+                            android:textCursorDrawable="@null"
+                            android:textSize="16sp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/til2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp"
+                        app:passwordToggleEnabled="true"
+                        app:passwordToggleTint="@color/colorBlack">
+
+                        <com.consturctionbuddy.custom.CustomEditText
+                            android:id="@+id/password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Password"
+                            android:inputType="textPassword"
+                            android:textCursorDrawable="@null"
+                            android:textSize="16sp" />
+                    </android.support.design.widget.TextInputLayout>
 
 
-            <LinearLayout
-                android:id="@+id/ll_forgot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="15dp"
-                android:gravity="end"
-                android:visibility="visible">
-
-                <com.consturctionbuddy.custom.CustomRegularTextView
-                    android:id="@+id/tv_forgot_password"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="10dp"
-                    android:gravity="end"
-                    android:text="Forgot Password?"
-                    android:textSize="14sp" />
-
-            </LinearLayout>
+                    <Button
+                        android:id="@+id/btn_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/round_btn_primary"
+                        android:text="@string/LoginText"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp" />
 
 
-            <Button
-                android:id="@+id/btn_signup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/round_btn_primary"
-                android:text="Sign up"
-                android:textAllCaps="false"
-                android:textColor="@color/colorWhite"
-                android:textSize="16sp" />
+                    <LinearLayout
+                        android:id="@+id/ll_forgot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="15dp"
+                        android:gravity="end"
+                        android:visibility="visible">
+
+                        <com.consturctionbuddy.custom.CustomRegularTextView
+                            android:id="@+id/tv_forgot_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginTop="10dp"
+                            android:gravity="end"
+                            android:text="Forgot Password?"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
 
 
-        </LinearLayout>
-    </RelativeLayout>
+                    <Button
+                        android:id="@+id/btn_signup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/round_btn_primary"
+                        android:text="Sign up"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp" />
 
 
+                    <com.consturctionbuddy.custom.CustomRegularTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:text="Or you can sign in via social network"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/ll_fb_login"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/fb_rounded_btn"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginEnd="10dp"
+                                android:src="@drawable/ic_fb" />
+
+
+                            <com.consturctionbuddy.custom.CustomRegularTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="Facebook"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_gplus_login"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/google_rounded_btn"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:layout_marginEnd="10dp"
+                                android:src="@drawable/ic_google" />
+
+
+                            <com.consturctionbuddy.custom.CustomRegularTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:text="Google"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="16sp" />
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <com.facebook.login.widget.LoginButton
+                        android:id="@+id/login_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
+
+                    <com.google.android.gms.common.SignInButton
+                        android:id="@+id/sign_in_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

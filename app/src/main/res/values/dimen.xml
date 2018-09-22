@@ -20,6 +20,32 @@
 
     <!--Notification Activity End-->
 
+    <dimen name="PostImagePIcWidth">65dp</dimen>
+    <dimen name="PostImagePIcHeight">65dp</dimen>
+    <dimen name="MultipleImgWidth">100dp</dimen>
+    <dimen name="MultipleImgHeight">150dp</dimen>
+
+
+
     <dimen name="LoginfooterImagewidth">24dp</dimen>
+    <!--Home Screen start-->
+    <dimen name="home_item_margin">5dp</dimen>
+    <dimen name="home_item_padding_top_bottom">5dp</dimen>
+    <dimen name="home_item_padding_left_right">15dp</dimen>
+    <dimen name="home_item_profile_pic">75dp</dimen>
+    <dimen name="home_item_profile_pic_img">65dp</dimen>
+    <dimen name="home_item_profile_pic_width">60dp</dimen>
+    <dimen name="home_item_profile_info_padd">5dp</dimen>
+    <dimen name="home_item_profile_name">14sp</dimen>
+    <dimen name="home_item_timestamp">13dp</dimen>
+    <dimen name="home_item_status_pad_left_right">15dp</dimen>
+    <dimen name="home_item_status_pad_top">13dp</dimen>
+    <dimen name="home_item_corner_radius">3dp</dimen>
+    <dimen name="home_item_border_width">1dp</dimen>
+    <dimen name="home_img_cell_size">140dp</dimen>
+    <dimen name="home_likeImgWidth">40dp</dimen>
+    <dimen name="home_likeImg">35dp</dimen>
+    <dimen name="home_timelineBoxText">80dp</dimen>
+    <!--home Screen end-->
 
 </resources>

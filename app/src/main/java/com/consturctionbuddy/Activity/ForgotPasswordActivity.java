@@ -29,6 +29,7 @@ import com.consturctionbuddy.Utility.Constant;
 import com.consturctionbuddy.Utility.UIUtils;
 import com.consturctionbuddy.Utility.Utils;
 import com.consturctionbuddy.Utility.ValidatorUtils;
+import com.consturctionbuddy.custom.CustomEditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -45,7 +46,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     private boolean mIsRequestInProgress;
     private boolean mProgressBarShowing = false;
     private RelativeLayout mProgressBarLayout;
-    private AutoCompleteTextView mEtEmail;
+    private CustomEditText mEtEmail;
 
 
     @Override

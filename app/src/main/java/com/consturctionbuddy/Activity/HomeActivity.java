@@ -6,13 +6,16 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.consturctionbuddy.Adapter.RecyclerAdapter;
 import com.consturctionbuddy.Fragment.FirstFragment;
@@ -28,41 +31,48 @@ import butterknife.ButterKnife;
 public class HomeActivity extends AppCompatActivity implements RecyclerAdapter.ItemClickChild {
 
 
-    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.nav_view)
-    NavigationView navView;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
-
+    private DrawerLayout drawerLayout;
     String names[] = Constant.name;
     String subNames[] = Constant.subName;
-
-    @BindView(R.id.toolbar_setting)
     Toolbar toolbar;
-
-    @BindView(R.id.frame)
-    FrameLayout frame;
-
     FirstFragment fragment;
-
+    private static ActionBarDrawerToggle actionbarToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
-        ButterKnife.bind(this);
 
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_setting);
         setSupportActionBar(toolbar);
-        final ActionBar actionar = getSupportActionBar();
-        actionar.setDisplayHomeAsUpEnabled(true);
-        actionar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
+            getSupportActionBar().setTitle("Construction Buddy");
+            //toolbar.setNavigationIcon(null);
+        }
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        recyclerView = findViewById(R.id.recyclerView);
+
+        actionbarToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.drawer_open, R.string.drawer_close);
+
+        actionbarToggle.syncState();
+
+        // Setting drawer listener
+        drawerLayout.setDrawerListener(actionbarToggle);
 
         List list = getList();
         RecyclerAdapter adapter = new RecyclerAdapter(this, list, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        // recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
 
         setFragment();

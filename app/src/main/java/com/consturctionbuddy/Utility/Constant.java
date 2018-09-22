@@ -9,7 +9,15 @@ public class Constant {
 
     public static final int APPLICATION_BACK_COUNT = 0;
 
+    public static final int GP_SIGN_IN = 9001;
     public static final int SPLASH_TIME_OUT = 3 * 1000;
+
+    public static final int REQUEST_CODE_RESOLVE_ERR = 9000;
+    public static final int MAX_PRODUCT_IMAGE_DISPLAY = 4;
+
+    public static final String INTENT_IMAGE_SELECTED_INDEX_KEY = "image_selected_index";
+    public static final String INTENT_IMAGE_LIST_INDEX_KEY = "image_list";
+
 
     //======================Shared Preference ======================
     public static final String PREF_USER_LOGGED_IN = "user_login";
@@ -38,6 +46,42 @@ public class Constant {
     public static final String INTENT_NOTIFICATION_TITLE = "title";
     public static final String INTENT_NOTIFICATION_MSG = "message";
     public static final String INTENT_NOTIFICATION_IMAGE_URL = "image";
+
+    //FaceBook
+    public static final String FB_PERMISSION_PROFILE = "public_profile";
+    public static final String FB_PERMISSION_EMAIL = "email";
+    public static final String FB_PERMISSION_BIRTHDAY = "user_birthday";
+    public static final String FB_PERMISSION_LOCATION = "user_location";
+    public static final String FB_PERMISSION_PUBLISH_ACTIONS = "publish_actions";
+
+    public static final String FACEBOOK_PERMISSION_STR = FB_PERMISSION_PROFILE + "," +
+            FB_PERMISSION_EMAIL + "," +
+            FB_PERMISSION_BIRTHDAY + "," +
+            FB_PERMISSION_PUBLISH_ACTIONS + "," +
+            FB_PERMISSION_LOCATION;
+
+    public static final String FB_FIELD_ID = "id";
+    public static final String FB_FIELD_NAME = "name";
+    public static final String FB_FIELD_FIRST_NAME = "first_name";
+    public static final String FB_FIELD_LAST_NAME = "last_name";
+    public static final String FB_FIELD_EMAIL = "email";
+    public static final String FB_FIELD_GENDER = "gender";
+    public static final String FB_FIELD_BIRTHDAY = "birthday";
+    public static final String FB_FIELD_LOCATION = "location";
+    public static final String FB_FIELD_COVER = "cover";
+    public static final String FB_FIELD_PICTURE_TYPE = "picture.type(large)";
+    public static final String FB_FIELD_PHONE = "phone";
+
+    public static final String FB_FIELDS_STR = FB_FIELD_ID + "," +
+            FB_FIELD_NAME + "," +
+            FB_FIELD_FIRST_NAME + "," +
+            FB_FIELD_LAST_NAME + "," +
+            FB_FIELD_EMAIL + "," +
+            FB_FIELD_GENDER + "," +
+            FB_FIELD_BIRTHDAY + "," +
+            FB_FIELD_LOCATION + "," +
+            FB_FIELD_COVER + "," +
+            FB_FIELD_PICTURE_TYPE;
 
 
     public static String[] name = {"Dashboard",
