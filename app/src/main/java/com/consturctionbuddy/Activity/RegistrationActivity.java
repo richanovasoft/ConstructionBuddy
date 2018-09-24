@@ -69,7 +69,6 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 handleJoinClick();
-
             }
         });
 

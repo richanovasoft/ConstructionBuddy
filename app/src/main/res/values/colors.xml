@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#f8d347</color>
+    <color name="colorPrimary">#41C8DA</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#000000</color>
+
 
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
@@ -13,4 +14,13 @@
     <color name="LightSmokyColor">#F5F5F5</color>
     <color name="ImageOverflowColor">#99000000</color>
     <color name="orange">#EF6F66</color>
+
+
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="list_divider">#d9d9d9</color>
+    <color name="list_background_pressed">#d8d8d8</color>
+    <color name="list_background">#fff</color>
+    <color name="list_item_title">#d3d3d3</color>
 </resources>

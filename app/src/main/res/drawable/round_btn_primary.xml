@@ -5,7 +5,7 @@
             <solid android:color="@color/colorPrimary" />
             <stroke android:width="0dp" android:color="@color/colorPrimary" />
             <!--corners allow us to make the rounded corners button-->
-            <corners android:radius="5dp" />
+            <corners android:radius="2dp" />
         </shape>
     </item>
 </selector>

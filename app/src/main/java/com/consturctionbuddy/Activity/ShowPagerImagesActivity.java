@@ -15,14 +15,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import com.consturctionbuddy.Adapter.SliderPagerAdapter;
 import com.consturctionbuddy.Bean.SectionDataModel;
 import com.consturctionbuddy.Bean.TimeLineImage;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.Utility.Constant;
 import com.consturctionbuddy.custom.CustomViewPager;
-
 import java.util.ArrayList;
 
 

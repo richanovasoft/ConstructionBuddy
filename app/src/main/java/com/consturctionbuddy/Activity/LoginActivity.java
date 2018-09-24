@@ -47,6 +47,7 @@ import com.consturctionbuddy.Utility.Constant;
 import com.consturctionbuddy.Utility.UIUtils;
 import com.consturctionbuddy.Utility.UserUtils;
 import com.consturctionbuddy.Utility.Utils;
+import com.consturctionbuddy.custom.CustomBoldTextView;
 import com.consturctionbuddy.custom.CustomEditText;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -170,7 +171,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.btn_login);
-        Button btn_signup = (Button) findViewById(R.id.btn_signup);
+        CustomBoldTextView btn_signup = findViewById(R.id.btn_signup);
 
 
         btn_signup.setOnClickListener(new OnClickListener() {
@@ -559,7 +560,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         UserUtils.getInstance().setUserLoggedIn(mContext, true);
         UserUtils.getInstance().saveUserInfo(mContext, aLoginResponseObj);
         UserUtils.getInstance().setUserId(mContext, aLoginResponseObj.getUserId());
-        Intent intent = new Intent(mContext, HomeActivity.class);
+        Intent intent = new Intent(mContext, NavigationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
@@ -569,7 +570,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
         UserUtils.getInstance().setUserLoggedIn(mContext, true);
-        Intent intent = new Intent(mContext, HomeActivity.class);
+        Intent intent = new Intent(mContext, NavigationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

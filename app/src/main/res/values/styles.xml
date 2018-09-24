@@ -9,12 +9,10 @@
     </style>
 
 
-
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
 
 
     <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -25,7 +23,6 @@
         <!-- Used for the background -->
         <item name="android:background">@color/colorWhite</item>
     </style>
-
 
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -43,6 +40,14 @@
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">14sp</item>
 
+    </style>
+
+    <!-- ToolBar -->
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/colorWhite</item>
+        <item name="android:textColorSecondary">@color/colorWhite</item>
+        <item name="actionMenuTextColor">@color/colorWhite</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 

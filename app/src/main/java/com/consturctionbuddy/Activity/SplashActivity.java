@@ -61,7 +61,7 @@ public class SplashActivity extends AppCompatActivity {
         boolean loggedIn = StorageUtils.getPrefForBool(mContext, Constant.PREF_USER_LOGGED_IN);
         Intent intent;
         if (loggedIn) {
-            intent = new Intent(SplashActivity.this, HomeActivity.class);
+            intent = new Intent(SplashActivity.this, NavigationActivity.class);
         } else {
             intent = new Intent(SplashActivity.this, LoginActivity.class);
         }

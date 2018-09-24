@@ -1,10 +1,10 @@
 package com.consturctionbuddy.Fragment;
 
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -53,17 +53,16 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
         createDummyData();
         if (mTimeLineImageList.size() > 0) {
 
-            mTimeList.setItemViewCacheSize(20);
+           /* mTimeList.setItemViewCacheSize(20);
             mTimeList.setDrawingCacheEnabled(true);
             mTimeList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-
+*/
             LinearLayoutManager layoutManager
                     = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
             mTimeList.setLayoutManager(layoutManager);
             mTimeList.setNestedScrollingEnabled(false);
             HomeDataAdapter mProductImageAdapter = new HomeDataAdapter(mContext, mTimeLineImageList, this);
             mTimeList.setAdapter(mProductImageAdapter);
-
 
         }
     }
