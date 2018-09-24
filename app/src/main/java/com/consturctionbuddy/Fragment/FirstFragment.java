@@ -69,7 +69,7 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
 
 
     public void createDummyData() {
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 2; i++) {
 
             dm = new SectionDataModel();
 

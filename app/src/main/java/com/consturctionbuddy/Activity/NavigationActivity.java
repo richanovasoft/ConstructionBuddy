@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.consturctionbuddy.Fragment.FirstFragment;
+import com.consturctionbuddy.Fragment.LeaveManagement;
+import com.consturctionbuddy.Fragment.ProfileFragment;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.Utility.UserUtils;
 import com.consturctionbuddy.custom.CustomBoldTextView;
@@ -70,12 +72,14 @@ public class NavigationActivity extends AppCompatActivity
                 fragment = new FirstFragment();
                 break;
             case R.id.nav_profile:
+                fragment = new ProfileFragment();
                 break;
             case R.id.nav_leave:
                 break;
 
             case R.id.nav_leave_management:
 
+                fragment = new LeaveManagement();
                 break;
 
             case R.id.nav_daily_work:
@@ -135,7 +139,7 @@ public class NavigationActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        setFragment(item.getItemId());
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
