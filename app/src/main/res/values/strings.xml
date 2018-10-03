@@ -96,4 +96,14 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+
+    <string name="PermissionDeniedTitle">Permission denied</string>
+    <string name="PermissionDeniedMsg">Without this permission the app is unable to able register you. Are yout sure want to deny this permission?</string>
+    <string name="PermissionDeniedRetryTxt">Re-try</string>
+    <string name="PermissionDeniedSureTxt">I\'m sure</string>
+    <string name="PermissionGoSettingTitle">Go settings</string>
+    <string name="PermissionGoSettingMsg">To help you to use this app, access to your External storage. Tap settings > permissions, and turn Gallery Images.</string>
+    <string name="PermissionGoSettingTxt">SETTINGS</string>
+    <string name="PermissionDeniedMsgForLogin">Without this permission the app is unable to able login you. Are yout sure want to deny this permission?</string>
+
 </resources>

@@ -18,9 +18,11 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.consturctionbuddy.Fragment.DailyWorkInformationFragment;
 import com.consturctionbuddy.Fragment.FirstFragment;
 import com.consturctionbuddy.Fragment.LeaveManagement;
 import com.consturctionbuddy.Fragment.ProfileFragment;
+import com.consturctionbuddy.Fragment.RequestForLeaveFragment;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.Utility.UserUtils;
 import com.consturctionbuddy.custom.CustomBoldTextView;
@@ -75,6 +77,7 @@ public class NavigationActivity extends AppCompatActivity
                 fragment = new ProfileFragment();
                 break;
             case R.id.nav_leave:
+                fragment = new RequestForLeaveFragment();
                 break;
 
             case R.id.nav_leave_management:
@@ -84,6 +87,7 @@ public class NavigationActivity extends AppCompatActivity
 
             case R.id.nav_daily_work:
 
+                fragment = new DailyWorkInformationFragment();
                 break;
 
 

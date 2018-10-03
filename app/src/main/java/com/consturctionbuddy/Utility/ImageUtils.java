@@ -4,118 +4,75 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 
 public class ImageUtils {
 
-    public static final int AVATAR_WIDTH = 128;
-    public static final int AVATAR_HEIGHT = 128;
+    private static final String TAG = ImageUtils.class.getSimpleName();
 
-    /**
-     * Bo tròn ảnh avatar
-     * @param context
-     * @param src ảnh dạng bitmap
-     * @return RoundedBitmapDrawable là đầu vào cho hàm setImageDrawable()
-     */
-    public static RoundedBitmapDrawable roundedImage(Context context, Bitmap src){
-        /*Bo tròn avatar*/
-        Resources res = context.getResources();
-        RoundedBitmapDrawable dr =
-                RoundedBitmapDrawableFactory.create(res, src);
-        dr.setCornerRadius(Math.max(src.getWidth(), src.getHeight()) / 2.0f);
+    public static Bitmap getScaledImage(Uri uri, Context context) {
 
-        return dr;
-    }
+        InputStream in = null;
 
-    /**
-     * Đối với ảnh hình chữ nhật thì cần cắt ảnh theo hình vuông và lấy phần tâm
-     * ảnh để khi đặt làm avatar sẽ không bị méo
-     * @param srcBmp
-     * @return
-     */
-    public static Bitmap cropToSquare(Bitmap srcBmp){
-        Bitmap dstBmp = null;
-        if (srcBmp.getWidth() >= srcBmp.getHeight()){
+        try {
+            final int IMAGE_MAX_SIZE = 900000; // 0.9mp
+            in = context.getContentResolver().openInputStream(uri);
 
-            dstBmp = Bitmap.createBitmap(
-                    srcBmp,
-                    srcBmp.getWidth()/2 - srcBmp.getHeight()/2,
-                    0,
-                    srcBmp.getHeight(),
-                    srcBmp.getHeight()
-            );
-
-        }else{
-            dstBmp = Bitmap.createBitmap(
-                    srcBmp,
-                    0,
-                    srcBmp.getHeight()/2 - srcBmp.getWidth()/2,
-                    srcBmp.getWidth(),
-                    srcBmp.getWidth()
-            );
-        }
-
-        return dstBmp;
-    }
-
-    /**
-     * Convert ảnh dạng bitmap ra String base64
-     * @param imgBitmap
-     * @return
-     */
-    public static String encodeBase64(Bitmap imgBitmap){
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        imgBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
-    }
-
-    /**
-     * Làm giảm số điểm ảnh xuống để tránh lỗi Firebase Database OutOfMemory
-     * @param is anh dau vao
-     * @param reqWidth kích thước chiều rộng sau khi giảm
-     * @param reqHeight kích thước chiều cao sau khi giảm
-     * @return
-     */
-    public static Bitmap makeImageLite(InputStream is, int width, int height,
-                                       int reqWidth, int reqHeight) {
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) >= reqHeight
-                    && (halfWidth / inSampleSize) >= reqWidth) {
-                inSampleSize *= 2;
+            // Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(in, null, o);
+            if (in != null) {
+                in.close();
             }
+
+            int scale = 1;
+            while ((o.outWidth * o.outHeight) * (1 / Math.pow(scale, 2)) > IMAGE_MAX_SIZE) {
+                scale++;
+            }
+            Log.d(TAG, "scale = " + scale + ", orig-width: " + o.outWidth + ", orig-heigth: " + o.outHeight);
+
+            Bitmap b = null;
+            in = context.getContentResolver().openInputStream(uri);
+            if (scale > 1) {
+                scale--;
+
+                o = new BitmapFactory.Options();
+                o.inSampleSize = scale;
+                b = BitmapFactory.decodeStream(in, null, o);
+
+                int height = b.getHeight();
+                int width = b.getWidth();
+                Log.d(TAG, "1th scale operation dimension - w: " + width + ", h: " + height);
+
+                double y = Math.sqrt(IMAGE_MAX_SIZE / (((double) width) / height));
+                double x = (y / height) * width;
+
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(b, (int) x, (int) y, true);
+                b.recycle();
+                b = scaledBitmap;
+            } else {
+                b = BitmapFactory.decodeStream(in);
+            }
+            if (in != null) {
+                in.close();
+            }
+            Log.d(TAG, "bitmap size - width: " + b.getWidth() + ", height: " + b.getHeight());
+            return b;
+        } catch (IOException e) {
+            Log.d(TAG, e.getMessage());
+            return null;
         }
-
-        // Calculate inSampleSize
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = inSampleSize;
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeStream(is, null, options);
-    }
-
-
-    public static InputStream convertBitmapToInputStream(Bitmap bitmap){
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
-        byte[] bitmapdata = bos.toByteArray();
-        ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
-        return bs;
     }
 
 }

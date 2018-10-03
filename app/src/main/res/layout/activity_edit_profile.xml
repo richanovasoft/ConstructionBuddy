@@ -47,6 +47,7 @@
                             android:src="@drawable/ic_edit_profile" />
 
                         <ImageView
+                            android:id="@+id/img_edit_profile"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="end"
@@ -75,7 +76,6 @@
                             android:id="@+id/input_layout_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:padding="7dp">
 
                             <com.consturctionbuddy.custom.CustomEditText
@@ -176,4 +176,8 @@
 
     </ScrollView>
 
+    <include
+        android:id="@+id/rl_progressBar"
+        layout="@layout/progress_bar_layout"
+        android:visibility="gone" />
 </RelativeLayout>

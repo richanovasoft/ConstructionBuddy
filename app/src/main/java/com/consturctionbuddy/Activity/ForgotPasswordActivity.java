@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -124,7 +125,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                 JsonParser jsonParser = new JsonParser();
                                 JsonObject jsonResp = jsonParser.parse(response).getAsJsonObject();
                                 StatusBean forgetPasswordBean = gson.fromJson(jsonResp, StatusBean.class);
-                                if (forgetPasswordBean != null && forgetPasswordBean.getStatus().equals("Sucess")) {
+                                if (forgetPasswordBean != null && forgetPasswordBean.getStatus() == 200) {
 
                                     hideProgressBar();
                                     showForgotPasswordPopUp(forgetPasswordBean);

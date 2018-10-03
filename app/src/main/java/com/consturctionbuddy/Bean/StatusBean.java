@@ -9,7 +9,7 @@ public class StatusBean {
     private String mMessage;
 
     @SerializedName("status")
-    private String mStatus;
+    private int mStatus;
 
     @SerializedName("New Password")
     private String mNewPassword;
@@ -22,11 +22,11 @@ public class StatusBean {
         mMessage = message;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return mStatus;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         mStatus = status;
     }
 

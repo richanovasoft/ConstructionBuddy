@@ -17,6 +17,9 @@ public class Constant {
 
     public static final String INTENT_IMAGE_SELECTED_INDEX_KEY = "image_selected_index";
     public static final String INTENT_IMAGE_LIST_INDEX_KEY = "image_list";
+    public static final int MY_PERMISSIONS_REQUEST_FOR_EXTERNAL_STORAGE = 2000;
+    public static final int GALLERY_CAPTURE_IMAGE_REQUEST_CODE = 12452;
+    public static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 1337;
 
 
     //======================Shared Preference ======================
@@ -98,7 +101,7 @@ public class Constant {
     public static final String LOGIN_PASSWORD_KEY = "password";
 
 
-    private static final String API_BASE_URL_DEV = "http://portal.rrhostel.in";
+    private static final String API_BASE_URL_DEV = "http://ec2-34-235-127-11.compute-1.amazonaws.com:5555";
     private static final String API_BASE_URL = API_BASE_URL_DEV;
 
 
@@ -125,8 +128,8 @@ public class Constant {
     public static final String API_PAYMENT_API = API_BASE_URL + PAYMENT_API;
 
 
-    private static final String ADD_SERVICE = "/ServiceApi.php";
-    public static final String API_ADD_SERVICE = API_BASE_URL + ADD_SERVICE;
+    private static final String ADD_SERVICE = "/LeaveRequestApi";
+    public static final String APPLY_LEAVES_API = API_BASE_URL + ADD_SERVICE;
 
 
     private static final String ADD_MEAL = "/updateMealApi.php";
@@ -141,7 +144,7 @@ public class Constant {
     public static final String API_UPDATE_PROFILE_RELATION = API_BASE_URL + UPDATE_PROFILE_RELATION;
 
 
-    private static final String EVENT_LIST = "/eventApi.php";
+    private static final String EVENT_LIST = "/LeaveListApi";
     public static final String API_EVENT_LIST = API_BASE_URL + EVENT_LIST;
 
 }

@@ -53,17 +53,11 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
         createDummyData();
         if (mTimeLineImageList.size() > 0) {
 
-           /* mTimeList.setItemViewCacheSize(20);
-            mTimeList.setDrawingCacheEnabled(true);
-            mTimeList.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-*/
-            LinearLayoutManager layoutManager
-                    = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-            mTimeList.setLayoutManager(layoutManager);
-            mTimeList.setNestedScrollingEnabled(false);
+            RecyclerView.LayoutManager  mLayoutManager = new LinearLayoutManager(mContext);
+            mTimeList.setLayoutManager(mLayoutManager);
             HomeDataAdapter mProductImageAdapter = new HomeDataAdapter(mContext, mTimeLineImageList, this);
             mTimeList.setAdapter(mProductImageAdapter);
-
+            mTimeList.setNestedScrollingEnabled(false);
         }
     }
 
