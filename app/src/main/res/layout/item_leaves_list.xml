@@ -114,7 +114,7 @@
 
 
                                 <com.consturctionbuddy.custom.CustomRegularTextView
-                                    android:id="@+id/tv_service1"
+                                    android:id="@+id/tv_staff_name"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:singleLine="true"
@@ -124,19 +124,19 @@
 
 
                                 <com.consturctionbuddy.custom.CustomRegularTextView
-                                    android:id="@+id/tv_service2"
+                                    android:id="@+id/tv_staff_email"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_below="@+id/tv_service1"
+                                    android:layout_below="@+id/tv_staff_name"
                                     android:layout_marginTop="1sp"
                                     android:text="@string/demoText"
                                     android:textSize="14sp" />
 
                                 <com.consturctionbuddy.custom.CustomRegularTextView
-                                    android:id="@+id/tv_service3"
+                                    android:id="@+id/tv_staff_jod"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_below="@+id/tv_service2"
+                                    android:layout_below="@+id/tv_staff_email"
                                     android:singleLine="true"
                                     android:text="@string/demoText"
                                     android:textSize="14sp"
@@ -146,7 +146,7 @@
                                     android:id="@+id/tv_service4"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_below="@+id/tv_service3"
+                                    android:layout_below="@+id/tv_staff_jod"
                                     android:singleLine="true"
                                     android:text="@string/demoText"
                                     android:textSize="14sp"

@@ -40,6 +40,7 @@ dependencies {
     implementation 'com.android.support:percent:27.1.1'
     implementation 'com.google.firebase:firebase-database:16.0.2'
     implementation 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.github.gcacace:signature-pad:1.2.1'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
     implementation 'com.google.android.gms:play-services-auth:16.0.0'

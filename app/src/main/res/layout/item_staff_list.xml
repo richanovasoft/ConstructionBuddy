@@ -58,50 +58,14 @@
                             <RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.45"
+                                android:layout_weight="0.25"
                                 android:padding="5dp">
 
-                                <com.consturctionbuddy.custom.CustomRegularTextView
-                                    android:id="@+id/tv1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:singleLine="true"
-                                    android:text="Site Name"
-                                    android:textColor="@color/colorBlack"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold|normal" />
-
-                                <com.consturctionbuddy.custom.CustomRegularTextView
-                                    android:id="@+id/tv2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/tv1"
-                                    android:singleLine="true"
-                                    android:text="Image Alloted"
-                                    android:textColor="@color/colorBlack"
-                                    android:textSize="14sp" />
-
-                                <com.consturctionbuddy.custom.CustomRegularTextView
-                                    android:id="@+id/tv3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/tv2"
-                                    android:singleLine="true"
-                                    android:text="Update"
-                                    android:textColor="@color/colorBlack"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold|normal" />
-
-                                <com.consturctionbuddy.custom.CustomRegularTextView
-                                    android:id="@+id/prefer_time"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/tv3"
-                                    android:singleLine="true"
-                                    android:text="Remove"
-                                    android:textColor="@color/colorBlack"
-                                    android:textSize="14sp"
-                                    android:textStyle="bold|normal" />
+                                <ImageView
+                                    android:id="@+id/img_staff_profile"
+                                    android:layout_width="80dp"
+                                    android:layout_height="80dp"
+                                    android:src="@drawable/ic_user_account" />
 
                             </RelativeLayout>
 
@@ -109,7 +73,7 @@
                             <RelativeLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.55"
+                                android:layout_weight="0.75"
                                 android:padding="5dp">
 
 
@@ -142,15 +106,71 @@
                                     android:textSize="14sp"
                                     android:visibility="visible" />
 
-                                <com.consturctionbuddy.custom.CustomRegularTextView
-                                    android:id="@+id/tv_service4"
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/tv_staff_jod"
-                                    android:singleLine="true"
-                                    android:text="@string/demoText"
-                                    android:textSize="14sp"
-                                    android:visibility="visible" />
+                                    android:orientation="horizontal"
+                                    android:weightSum="1">
+
+                                    <LinearLayout
+                                        android:id="@+id/ll_edit"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="3dp"
+                                        android:layout_weight="0.5"
+                                        android:orientation="horizontal">
+
+                                        <ImageView
+                                            android:layout_width="18dp"
+                                            android:layout_height="18dp"
+                                            android:layout_gravity="center"
+                                            android:gravity="center"
+                                            android:src="@android:drawable/ic_menu_edit" />
+
+                                        <com.consturctionbuddy.custom.CustomRegularTextView
+                                            android:id="@+id/tv_edit"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="5dp"
+                                            android:singleLine="true"
+                                            android:text="Edit"
+                                            android:textSize="14sp"
+                                            android:visibility="visible" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:id="@+id/ll_delete"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="end"
+                                        android:layout_marginEnd="5dp"
+                                        android:layout_weight="0.5"
+                                        android:gravity="end"
+                                        android:orientation="horizontal">
+
+
+                                        <ImageView
+                                            android:layout_width="18dp"
+                                            android:layout_height="18dp"
+                                            android:layout_gravity="center"
+                                            android:gravity="center"
+                                            android:src="@android:drawable/ic_menu_delete" />
+
+                                        <com.consturctionbuddy.custom.CustomRegularTextView
+                                            android:id="@+id/tv_delete"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="5dp"
+                                            android:singleLine="true"
+                                            android:text="Delete"
+                                            android:textSize="14sp"
+                                            android:visibility="visible" />
+
+
+                                    </LinearLayout>
+                                </LinearLayout>
                             </RelativeLayout>
                         </LinearLayout>
 

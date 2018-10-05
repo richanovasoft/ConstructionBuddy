@@ -10,8 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.consturctionbuddy.Activity.ShowPagerImagesActivity;
+import com.consturctionbuddy.Activity.TotalStaffActivity;
 import com.consturctionbuddy.Adapter.HomeDataAdapter;
 import com.consturctionbuddy.Bean.SectionDataModel;
 import com.consturctionbuddy.Bean.TimeLineImage;
@@ -30,6 +32,7 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
     private View mMainView;
 
     private SectionDataModel dm;
+    private LinearLayout ll_total_staff;
 
 
     @Override
@@ -44,6 +47,15 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
 
         mTimeLineImageList = new ArrayList<>();
         mTimeList = mMainView.findViewById(R.id.rv_productImg);
+        ll_total_staff = mMainView.findViewById(R.id.ll_total_staff);
+
+        ll_total_staff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, TotalStaffActivity.class);
+                startActivity(intent);
+            }
+        });
         setMultipleList();
     }
 
@@ -53,7 +65,7 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
         createDummyData();
         if (mTimeLineImageList.size() > 0) {
 
-            RecyclerView.LayoutManager  mLayoutManager = new LinearLayoutManager(mContext);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
             mTimeList.setLayoutManager(mLayoutManager);
             HomeDataAdapter mProductImageAdapter = new HomeDataAdapter(mContext, mTimeLineImageList, this);
             mTimeList.setAdapter(mProductImageAdapter);

@@ -147,4 +147,12 @@ public class Constant {
     private static final String EVENT_LIST = "/LeaveListApi";
     public static final String API_EVENT_LIST = API_BASE_URL + EVENT_LIST;
 
+
+    private static final String TOTAL_STAFF_LIST = "/LeaveListApi";
+    public static final String API_TOTAL_STAFF_LIST = API_BASE_URL + TOTAL_STAFF_LIST;
+
+
+    private static final String TOTAL_USER_LIST = "/LeaveListApi";
+    public static final String API_TOTAL_USER_LIST = API_BASE_URL + TOTAL_USER_LIST;
+
 }

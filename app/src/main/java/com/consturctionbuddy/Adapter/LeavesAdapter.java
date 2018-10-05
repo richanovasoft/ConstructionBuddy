@@ -73,9 +73,9 @@ public class LeavesAdapter extends RecyclerView.Adapter<LeavesAdapter.MyViewHold
 
         MyViewHolder(View itemView) {
             super(itemView);
-            tv_service1 = itemView.findViewById(R.id.tv_service1);
-            tv_service2 = itemView.findViewById(R.id.tv_service2);
-            tv_service3 = itemView.findViewById(R.id.tv_service3);
+            tv_service1 = itemView.findViewById(R.id.tv_staff_name);
+            tv_service2 = itemView.findViewById(R.id.tv_staff_email);
+            tv_service3 = itemView.findViewById(R.id.tv_staff_jod);
             tv_service4 = itemView.findViewById(R.id.tv_service4);
             prefer_time = itemView.findViewById(R.id.prefer_time);
 
