@@ -3,16 +3,38 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/abl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:animateLayoutChanges="true"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:theme="@style/GalaxyZooThemeToolbarDarkOverflow"
+            app:popupTheme="@style/Theme.AppCompat.NoActionBar">
+
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/abl"
         android:scrollbars="none">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -35,41 +57,6 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:id="@+id/civ_profile"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_edit_profile" />
-
-                        <ImageView
-                            android:id="@+id/img_edit_profile"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_gravity="end"
-                            android:src="@android:drawable/ic_menu_edit" />
-
-
-                    </LinearLayout>
-
-                    <com.consturctionbuddy.custom.CustomRegularTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="5dp"
-                        android:gravity="center"
-                        android:text="Edit profile"
-                        android:textSize="14sp"
-                        android:visibility="gone" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:weightSum="1">
@@ -84,7 +71,7 @@
                                 android:id="@+id/et_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="User Name"
+                                android:hint="Company Name"
                                 android:inputType="text"
                                 android:singleLine="true"
                                 android:textCursorDrawable="@null"
@@ -104,7 +91,7 @@
                             android:id="@+id/et_email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Email"
+                            android:hint="Company Email"
                             android:inputType="textEmailAddress"
                             android:textCursorDrawable="@null"
                             android:textSize="14sp" />
@@ -120,7 +107,7 @@
                             android:id="@+id/et_phone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Mobile"
+                            android:hint="Company Number"
                             android:inputType="textEmailAddress"
                             android:textCursorDrawable="@null"
                             android:textSize="14sp" />
@@ -139,7 +126,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="top|start"
                             android:gravity="start|top"
-                            android:hint="Address"
+                            android:hint="Company  Address"
                             android:inputType="textMultiLine"
                             android:lines="4"
                             android:textCursorDrawable="@null"
@@ -162,12 +149,12 @@
                             android:visibility="gone" />
 
                         <com.consturctionbuddy.custom.CustomBoldTextView
-                            android:id="@+id/tv_pan"
+                            android:id="@+id/tv_company_logo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:src="@android:drawable/ic_menu_edit"
-                            android:text="Upload PAN Card"
+                            android:text="Upload Company logo"
                             android:textAlignment="center"
                             android:textColor="@color/colorPrimary"
                             android:textSize="16sp"
@@ -192,7 +179,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/round_btn_primary"
-                            android:text="Update Profile"
+                            android:text="Update Info"
                             android:textAllCaps="false"
                             android:textColor="@color/colorWhite"
                             android:textSize="16sp" />
@@ -207,26 +194,6 @@
         </RelativeLayout>
 
     </ScrollView>
-
-
-    <RelativeLayout
-        android:id="@+id/rl_plus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:gravity="end">
-
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_company_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/fab_margin"
-            app:backgroundTint="@color/GooglebtnColor"
-            app:srcCompat="@drawable/ic_plus" />
-
-    </RelativeLayout>
 
     <include
         android:id="@+id/rl_progressBar"

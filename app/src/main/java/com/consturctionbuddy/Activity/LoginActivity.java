@@ -25,13 +25,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -40,7 +38,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.consturctionbuddy.Bean.LoginResponce;
+import com.consturctionbuddy.Bean.UserResponse.User;
+import com.consturctionbuddy.Bean.UserResponse.UserInfo;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.Utility.AppController;
 import com.consturctionbuddy.Utility.Constant;
@@ -56,7 +55,6 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -64,11 +62,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -82,7 +78,6 @@ import com.google.gson.JsonParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -422,8 +417,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         } else {
             //Call API for Login
 
-            loginSuccessfully1();
-            //startHttpRequestForLoginAPI();
+            // loginSuccessfully1();
+            startHttpRequestForLoginAPI();
 
         }
     }
@@ -437,24 +432,30 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             mIsRequestInProgress = true;
 
             android_id = Settings.System.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
+            showProgressBar();
 
             String baseUrl = Constant.API_LOGIN;
-            showProgressBar();
             StringRequest mStrRequest = new StringRequest(Request.Method.POST, baseUrl,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
 
-                                JSONObject root = new JSONObject(response);
-                                String strStatus = root.optString("status");
-                                String strMsg = root.optString("message");
-                                if (strStatus.equals("Failed")) {
+                                Gson gson = new GsonBuilder().create();
+                                JsonParser jsonParser = new JsonParser();
+                                JsonObject jsonResp = jsonParser.parse(response).getAsJsonObject();
+                                UserInfo loginResponseData = gson.fromJson(jsonResp, UserInfo.class);
+                                if (loginResponseData != null && loginResponseData.getStatus() == 200) {
+                                    hideProgressBar();
+
+                                    loginSuccessfully(loginResponseData.getUser());
+
+                                } else {
 
                                     hideProgressBar();
                                     new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
                                             .setTitle(getString(R.string.app_name))
-                                            .setMessage(strMsg)
+                                            .setMessage(loginResponseData.getStrMsg())
                                             .setCancelable(false)
                                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                                 @Override
@@ -463,35 +464,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                                     dialog.dismiss();
                                                 }
                                             }).show();
-
-
-                                } else {
-                                    Gson gson = new GsonBuilder().create();
-                                    JsonParser jsonParser = new JsonParser();
-                                    JsonObject jsonResp = jsonParser.parse(response).getAsJsonObject();
-                                    LoginResponce loginResponseData = gson.fromJson(jsonResp, LoginResponce.class);
-                                    if (loginResponseData != null) {
-                                        hideProgressBar();
-
-                                        loginSuccessfully(loginResponseData);
-
-                                    } else {
-
-                                        hideProgressBar();
-                                        new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
-                                                .setTitle(getString(R.string.app_name))
-                                                .setMessage(getString(R.string.LoginFailedMsg))
-                                                .setCancelable(false)
-                                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        // Whatever...
-                                                        dialog.dismiss();
-                                                    }
-                                                }).show();
-                                    }
                                 }
-
                             } catch (Exception e) {
                                 hideProgressBar();
                                 new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
@@ -535,8 +508,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     HashMap<String, String> params = new HashMap<>();
                     params.put(Constant.LOGIN_USERNAME_KEY, mEmailView.getText().toString());
                     params.put(Constant.LOGIN_PASSWORD_KEY, mPasswordView.getText().toString().trim());
-                    params.put("deviceId", android_id);
-                    params.put("firebaseRegistrationId", refreshedToken);
+                    //params.put("deviceId", android_id);
+                    //params.put("firebaseRegistrationId", refreshedToken);
                     return params;
                 }
             };
@@ -554,12 +527,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
 
-    private void loginSuccessfully(LoginResponce aLoginResponseObj) {
+    private void loginSuccessfully(User aLoginResponseObj) {
 
 
         UserUtils.getInstance().setUserLoggedIn(mContext, true);
         UserUtils.getInstance().saveUserInfo(mContext, aLoginResponseObj);
-        UserUtils.getInstance().setUserId(mContext, aLoginResponseObj.getUserId());
+        UserUtils.getInstance().setUserId(mContext, aLoginResponseObj.get_id());
+        UserUtils.getInstance().setUserProfileImage(mContext, aLoginResponseObj.getImg().getPath());
         Intent intent = new Intent(mContext, NavigationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

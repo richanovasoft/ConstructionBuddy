@@ -6,18 +6,39 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.consturctionbuddy.Bean.UserResponse.UserInfo;
 import com.consturctionbuddy.R;
+import com.consturctionbuddy.Utility.AppController;
 import com.consturctionbuddy.Utility.Constant;
+import com.consturctionbuddy.Utility.UIUtils;
+import com.consturctionbuddy.Utility.UserUtils;
+import com.consturctionbuddy.Utility.Utils;
 import com.consturctionbuddy.Utility.ValidatorUtils;
 import com.consturctionbuddy.custom.CustomEditText;
 import com.consturctionbuddy.custom.CustomRegularTextView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -28,6 +49,9 @@ public class RegistrationActivity extends AppCompatActivity {
     private CustomEditText mConfirmPasswordEt;
     private CustomEditText mEmailEt;
     private CustomEditText mUserNameEt, mUserAddress;
+    private boolean mIsRequestInProgress;
+    private boolean mProgressBarShowing = false;
+    private RelativeLayout mProgressBarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +80,7 @@ public class RegistrationActivity extends AppCompatActivity {
         mUserAddress = findViewById(R.id.et_address);
 
         Button joinButton = findViewById(R.id.btn_signup);
+        mProgressBarLayout = findViewById(R.id.rl_progressBar);
 
         tvAlreadyAcccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,13 +118,122 @@ public class RegistrationActivity extends AppCompatActivity {
                 getString(R.string.RegisterPasswordMisMatch))
                 && ValidatorUtils.NotEmptyValidator(mContext, mUserAddress, true, "Please enter address.")) {
 
-            registerSuccessfully();
+            startHttpRequestForSignUp();
+        }
+    }
+
+
+    private void startHttpRequestForSignUp() {
+
+        boolean internetAvailable = Utils.isConnectingToInternet(mContext);
+        if (internetAvailable) {
+            mIsRequestInProgress = true;
+            final String android_id = Settings.System.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
+
+            String baseUrl = Constant.API_SIGNUP_METHOD;
+            showProgressBar();
+            StringRequest mStrRequest = new StringRequest(Request.Method.POST, baseUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                            System.out.println("***loginresponce = " + response);
+
+                            try {
+
+                                Gson gson = new GsonBuilder().create();
+                                JsonParser jsonParser = new JsonParser();
+                                JsonObject jsonResp = jsonParser.parse(response).getAsJsonObject();
+                                UserInfo registerResponseObj = gson.fromJson(jsonResp, UserInfo.class);
+
+                                if (registerResponseObj != null) {
+                                    if (registerResponseObj.getUser().getLocal() != null) {
+                                        registerSuccessfully();
+                                    } else {
+                                        hideProgressBar();
+                                        new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
+                                                .setTitle(getString(R.string.app_name))
+                                                .setMessage("Unable to Create Account")
+                                                .setCancelable(false)
+                                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+
+                                                    }
+                                                }).show();
+                                    }
+                                } else {
+                                    hideProgressBar();
+                                    new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
+                                            .setTitle(getString(R.string.app_name))
+                                            .setMessage("Unable to Create Account")
+                                            .setCancelable(false)
+                                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+
+                                                }
+                                            }).show();
+                                    mIsRequestInProgress = false;
+                                }
+
+                            } catch (Exception e) {
+
+                                hideProgressBar();
+                                new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
+                                        .setTitle(getString(R.string.app_name))
+                                        .setMessage("Unable to Create Account")
+                                        .setCancelable(false)
+                                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+
+                                            }
+                                        }).show();
+                            }
+                            hideProgressBar();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                            hideProgressBar();
+                            if (error instanceof NoConnectionError) {
+                                UIUtils.showToast(mContext, getString(R.string.InternetErrorMsg));
+                            } else {
+                                UIUtils.showToast(mContext, getString(R.string.VolleyErrorMsg));
+                            }
+
+                        }
+                    }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("email", mEmailEt.getText().toString().trim());
+                    params.put("password", mPasswordEt.getText().toString().trim());
+                    params.put("firstname", mUserNameEt.getText().toString());
+                    params.put("cpassword", mConfirmPasswordEt.getText().toString());
+                    params.put("address", mUserAddress.getText().toString());
+                    System.out.println("registration_params = " + params);
+                    return params;
+                }
+            };
+            mStrRequest.setShouldCache(false);
+            mStrRequest.setTag(TAG);
+            AppController.getInstance().addToRequestQueue(mStrRequest);
+            mStrRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    10000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         }
     }
 
 
     private void registerSuccessfully() {
-
 
         new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
                 .setTitle(getString(R.string.RegisterSuccessfulTitle))
@@ -139,5 +273,15 @@ public class RegistrationActivity extends AppCompatActivity {
             window.setStatusBarColor(color);
         }
     }
+
+    private void hideProgressBar() {
+        mIsRequestInProgress = false;
+        mProgressBarLayout.setVisibility(View.GONE);
+    }
+
+    private void showProgressBar() {
+        mProgressBarLayout.setVisibility(View.VISIBLE);
+    }
+
 }
 

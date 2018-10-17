@@ -23,6 +23,54 @@
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/ll_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="7dp"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/home_item_profile_info_padd">
+
+        <com.consturctionbuddy.custom.CustomBoldTextView
+            android:id="@+id/tv_image_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/demoText"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/home_item_profile_name"
+            android:textStyle="bold|normal" />
+
+        <com.consturctionbuddy.custom.CustomBoldTextView
+            android:id="@+id/tv_image_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_image_date"
+            android:text="@string/demoText"
+            android:textColor="@color/orange"
+            android:textSize="14sp" />
+
+        <com.consturctionbuddy.custom.CustomRegularTextView
+            android:id="@+id/tv_image_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_image_title"
+            android:maxLines="4"
+            android:text="@string/demoText"
+            android:textSize="14sp" />
+
+        <com.consturctionbuddy.custom.CustomRegularTextView
+            android:id="@+id/tv_read_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_image_desc"
+            android:text="Read more..."
+            android:textSize="10sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_list"
         android:layout_width="match_parent"

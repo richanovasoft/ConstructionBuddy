@@ -76,6 +76,7 @@
 
 
                             <com.consturctionbuddy.custom.CustomRegularTextView
+                                android:id="@+id/tv_total_users"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
@@ -127,6 +128,7 @@
 
 
                             <com.consturctionbuddy.custom.CustomRegularTextView
+                                android:id="@+id/tv_total_staff"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
@@ -186,6 +188,7 @@
 
 
                             <com.consturctionbuddy.custom.CustomRegularTextView
+                                android:id="@+id/tv_total_projects"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
@@ -236,6 +239,7 @@
 
 
                             <com.consturctionbuddy.custom.CustomRegularTextView
+                                android:id="@+id/tv_total_material"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"

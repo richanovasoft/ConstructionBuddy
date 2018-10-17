@@ -20,6 +20,7 @@ public class Constant {
     public static final int MY_PERMISSIONS_REQUEST_FOR_EXTERNAL_STORAGE = 2000;
     public static final int GALLERY_CAPTURE_IMAGE_REQUEST_CODE = 12452;
     public static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 1337;
+    public static final int MAX_UPLOAD_FILE_SIZE = 5;
 
 
     //======================Shared Preference ======================
@@ -27,6 +28,7 @@ public class Constant {
     public static final String PREF_USER_ID = "user_id";
     public static final String PREF_TOKEN_ID = "token_id";
     public static final String PREF_USER_INFO = "user_info";
+    public static final String PREF_USER_IMAGE = "user_info_image";
 
     public static final String PREF_FIRST_LAUNCH = "skipIntro";
     public static final String PREF_SKIP_USER_ACCESS = "skipAccess";
@@ -105,11 +107,14 @@ public class Constant {
     private static final String API_BASE_URL = API_BASE_URL_DEV;
 
 
-    private static final String API_LOGIN_METHOD = "/loginApi.php";
+    private static final String API_LOGIN_METHOD = "/loginapi";
     public static final String API_LOGIN = API_BASE_URL + API_LOGIN_METHOD;
 
+    private static final String SIGNUP_METHOD = "/staffregister";
+    public static final String API_SIGNUP_METHOD = API_BASE_URL + SIGNUP_METHOD;
 
-    private static final String FORGOT_PASSWORD = "/forgetPassApi.php";
+
+    private static final String FORGOT_PASSWORD = "/staffForgetApi";
     public static final String API_FORGOT_PASSWORD = API_BASE_URL + FORGOT_PASSWORD;
 
 
@@ -117,11 +122,13 @@ public class Constant {
     public static final String API_CHANGE_PASSWORD = API_BASE_URL + CHANGE_PASSWORD;
 
 
-    private static final String HOME_NOTIFICATION = "/updateNotificationApi.php";
-    public static final String API_HOME_NOTIFICATION = API_BASE_URL + HOME_NOTIFICATION;
+    private static final String TOTAL_COUNT = "/totalAllCount";
+    public static final String API_TOTAL_COUNT = API_BASE_URL + TOTAL_COUNT;
 
-    private static final String SERVICE_REQUEST = "/ServiceFetchApi.php";
-    public static final String API_SERVICE_REQUEST = API_BASE_URL + SERVICE_REQUEST;
+
+
+    private static final String HOME = "/TimelineAdminApi";
+    public static final String API_HOME = API_BASE_URL + HOME;
 
 
     private static final String PAYMENT_API = "/paymentApi.php";
@@ -136,12 +143,18 @@ public class Constant {
     public static final String API_ADD_MEAL = API_BASE_URL + ADD_MEAL;
 
 
-    private static final String UPDATE_PROFILE = "/userUpdateApi.php";
+    private static final String UPDATE_PROFILE = "/updateProfileApi";
     public static final String API_UPDATE_PROFILE = API_BASE_URL + UPDATE_PROFILE;
 
 
-    private static final String UPDATE_PROFILE_RELATION = "/emergencyUpdateApi.php";
-    public static final String API_UPDATE_PROFILE_RELATION = API_BASE_URL + UPDATE_PROFILE_RELATION;
+    private static final String UPDATE_IMAGE = "/profileImageUploadApi";
+    public static final String API_UPDATE_IMAGE = API_BASE_URL + UPDATE_IMAGE;
+
+
+
+    private static final String PAN_CARD_IMAGE = "/staffImageUploadAp";
+    public static final String API_PAN_CARD_IMAGE = API_BASE_URL + PAN_CARD_IMAGE;
+
 
 
     private static final String EVENT_LIST = "/LeaveListApi";

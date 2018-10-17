@@ -11,28 +11,61 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.consturctionbuddy.Activity.ShowPagerImagesActivity;
 import com.consturctionbuddy.Activity.TotalStaffActivity;
 import com.consturctionbuddy.Adapter.HomeDataAdapter;
+import com.consturctionbuddy.Bean.LeavesBean;
 import com.consturctionbuddy.Bean.SectionDataModel;
+import com.consturctionbuddy.Bean.TimeLine.Datum;
+import com.consturctionbuddy.Bean.TimeLine.TimeLineBean;
 import com.consturctionbuddy.Bean.TimeLineImage;
+import com.consturctionbuddy.Bean.UserResponse.TotalCount;
+import com.consturctionbuddy.Bean.UserResponse.UserInfo;
 import com.consturctionbuddy.Interface.IMultipleImageClickCallback;
 import com.consturctionbuddy.R;
+import com.consturctionbuddy.Utility.AppController;
 import com.consturctionbuddy.Utility.Constant;
+import com.consturctionbuddy.Utility.UIUtils;
+import com.consturctionbuddy.Utility.UserUtils;
+import com.consturctionbuddy.Utility.Utils;
+import com.consturctionbuddy.custom.CustomRegularTextView;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FirstFragment extends Fragment implements IMultipleImageClickCallback {
 
 
     private Context mContext;
-    private ArrayList<SectionDataModel> mTimeLineImageList;
+    private ArrayList<Datum> mTimeLineImageList;
     private RecyclerView mTimeList;
     private View mMainView;
 
+    private boolean mProgressBarShowing = false;
+    private boolean mIsRequestInProgress;
+    private RelativeLayout mProgressBarLayout;
+
     private SectionDataModel dm;
     private LinearLayout ll_total_staff;
+    private CustomRegularTextView tv_total_material, tv_total_staff, tv_total_projects, tv_total_Users;
 
 
     @Override
@@ -48,6 +81,12 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
         mTimeLineImageList = new ArrayList<>();
         mTimeList = mMainView.findViewById(R.id.rv_productImg);
         ll_total_staff = mMainView.findViewById(R.id.ll_total_staff);
+        tv_total_material = mMainView.findViewById(R.id.tv_total_material);
+        tv_total_staff = mMainView.findViewById(R.id.tv_total_staff);
+        tv_total_Users = mMainView.findViewById(R.id.tv_total_users);
+        tv_total_projects = mMainView.findViewById(R.id.tv_total_projects);
+        mProgressBarLayout = mMainView.findViewById(R.id.rl_progressBar);
+
 
         ll_total_staff.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,17 +95,81 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
                 startActivity(intent);
             }
         });
-        setMultipleList();
+
+        startHttpRequestForTotalCount();
+        startHttpRequestForHome();
     }
 
 
-    private void setMultipleList() {
+    private void startHttpRequestForHome() {
 
-        createDummyData();
+        boolean internetAvailable = Utils.isConnectingToInternet(mContext);
+        if (internetAvailable) {
+
+            String baseUrl = Constant.API_HOME + "?" + "userid=" + UserUtils.getInstance().getUserID(mContext);
+            StringRequest mStrRequest = new StringRequest(Request.Method.GET, baseUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                Gson gson = new Gson();
+                                Type listType = new TypeToken<List<Datum>>() {
+                                }.getType();
+                                ArrayList<Datum> posts = gson.fromJson(response, listType);
+                                if (posts != null && posts.size() > 0) {
+                                    hideProgressBar();
+                                    setMultipleList(posts);
+                                } else {
+
+
+                                }
+                            } catch (Exception e) {
+
+                            }
+                        }
+                    },
+                    new Response.ErrorListener()
+
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (error.getClass().equals(NoConnectionError.class)) {
+                            } else {
+                                UIUtils.showToast(mContext, getResources().getString(R.string.VolleyErrorMsg));
+                            }
+                        }
+                    })
+
+            {
+                @Override
+                public Map<String, String> getParams() throws AuthFailureError {
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("userid", UserUtils.getInstance().getUserID(mContext));
+                    return params;
+                }
+            };
+            mStrRequest.setShouldCache(false);
+            mStrRequest.setTag("");
+            AppController.getInstance().
+
+                    addToRequestQueue(mStrRequest);
+            mStrRequest.setRetryPolicy(new
+
+                    DefaultRetryPolicy(
+                    10000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        } else {
+            UIUtils.showToast(mContext, getResources().getString(R.string.InternetErrorMsg));
+        }
+    }
+
+
+    private void setMultipleList(ArrayList<Datum> posts) {
+        mTimeLineImageList = posts;
         if (mTimeLineImageList.size() > 0) {
-
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
-            mTimeList.setLayoutManager(mLayoutManager);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+            mTimeList.setLayoutManager(layoutManager);
             HomeDataAdapter mProductImageAdapter = new HomeDataAdapter(mContext, mTimeLineImageList, this);
             mTimeList.setAdapter(mProductImageAdapter);
             mTimeList.setNestedScrollingEnabled(false);
@@ -74,7 +177,7 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
     }
 
 
-    public void createDummyData() {
+ /*   public void createDummyData() {
         for (int i = 1; i <= 2; i++) {
 
             dm = new SectionDataModel();
@@ -91,7 +194,7 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
             mTimeLineImageList.add(dm);
 
         }
-    }
+    }*/
 
     @Override
     public void itemClicked(int aIndex, SectionDataModel aTimeLineImage) {
@@ -110,6 +213,77 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
         intent.putExtra(Constant.INTENT_IMAGE_LIST_INDEX_KEY, aTimeLineImage);
         //intent.putParcelableArrayListExtra(Constant.INTENT_IMAGE_LIST_INDEX_KEY, aTimeLineImage);
         startActivity(intent);
+    }
+
+
+    private void startHttpRequestForTotalCount() {
+        String baseUrl = Constant.API_TOTAL_COUNT;
+        StringRequest mStrRequest = new StringRequest(Request.Method.GET, baseUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+                try {
+
+                    Gson gson = new GsonBuilder().create();
+                    JsonParser jsonParser = new JsonParser();
+                    JsonObject jsonResp = jsonParser.parse(response).getAsJsonObject();
+                    TotalCount totalCount = gson.fromJson(jsonResp, TotalCount.class);
+                    if (totalCount != null && totalCount.getmStatus() == 200) {
+
+                        setAllCountValues(totalCount);
+
+                    } else {
+                        System.out.println(" error");
+                    }
+                } catch (Exception e) {
+                    System.out.println("e = " + e);
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error instanceof NetworkError) {
+
+                        }
+                    }
+                });
+        mStrRequest.setShouldCache(false);
+        mStrRequest.setTag("");
+        AppController.getInstance().addToRequestQueue(mStrRequest);
+        mStrRequest.setRetryPolicy(new DefaultRetryPolicy(
+                10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+    }
+
+    private void setAllCountValues(TotalCount totalCount) {
+
+
+        tv_total_material.setText(totalCount.getmTotalMaterials() + " " + " Total Material");
+        tv_total_Users.setText(totalCount.getmTotalUsers() + " " + " Total users");
+        tv_total_projects.setText(totalCount.getmTotalProjects() + " " + " Total Projects");
+        tv_total_staff.setText(totalCount.getmTotalStaffs() + " " + " Total Staffs");
+    }
+
+
+    private void hideProgressBar() {
+        mIsRequestInProgress = false;
+
+        if (mProgressBarShowing) {
+            mProgressBarLayout.setVisibility(View.GONE);
+            mProgressBarShowing = false;
+        }
+    }
+
+    private void showProgressBar() {
+
+        if (!mProgressBarShowing) {
+            mProgressBarLayout.setVisibility(View.VISIBLE);
+            mProgressBarShowing = true;
+        }
     }
 }
 

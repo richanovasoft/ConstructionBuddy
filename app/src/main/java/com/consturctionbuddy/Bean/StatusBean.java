@@ -14,6 +14,10 @@ public class StatusBean {
     @SerializedName("New Password")
     private String mNewPassword;
 
+
+    @SerializedName("path")
+    private String mImagePath;
+
     public String getMessage() {
         return mMessage;
     }
@@ -37,5 +41,14 @@ public class StatusBean {
 
     public void setmNewPassword(String mNewPassword) {
         this.mNewPassword = mNewPassword;
+    }
+
+
+    public String getmImagePath() {
+        return mImagePath;
+    }
+
+    public void setmImagePath(String mImagePath) {
+        this.mImagePath = mImagePath;
     }
 }

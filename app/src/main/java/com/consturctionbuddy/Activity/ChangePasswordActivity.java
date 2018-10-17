@@ -21,8 +21,8 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.consturctionbuddy.Bean.LoginResponce;
 import com.consturctionbuddy.Bean.StatusBean;
+import com.consturctionbuddy.Bean.UserResponse.User;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.Utility.AppController;
 import com.consturctionbuddy.Utility.Constant;
@@ -50,7 +50,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private CustomEditText mEtLoginNewPassword;
     private CustomEditText mEtLoginPassword;
     private RelativeLayout mProgressBarLayout;
-    private LoginResponce userUtils;
+    private User userUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -230,7 +230,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
-                    params.put(Constant.LOGIN_USERNAME_KEY, userUtils.getEmail());
+                    params.put(Constant.LOGIN_USERNAME_KEY, userUtils.getLocal().getEmail());
                     params.put("oldPassword", mEtLoginPassword.getText().toString());
                     params.put("newPassword", mEtLoginNewPassword.getText().toString());
                     return params;

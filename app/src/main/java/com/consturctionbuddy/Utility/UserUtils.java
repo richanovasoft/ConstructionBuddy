@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 
-import com.consturctionbuddy.Bean.LoginResponce;
+import com.consturctionbuddy.Bean.UserResponse.User;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
@@ -54,6 +54,16 @@ public class UserUtils {
     }
 
 
+    public void setUserProfileImage(Context aContext, String aUser) {
+        StorageUtils.putPref(aContext, Constant.PREF_USER_IMAGE, aUser);
+    }
+
+    public String getUserProfileImage(Context aContext) {
+        return StorageUtils.getPrefStr(aContext, Constant.PREF_USER_IMAGE);
+    }
+
+
+
     public void setUserId(Context aContext, String aUser) {
         StorageUtils.putPref(aContext, Constant.PREF_USER_ID, aUser);
     }
@@ -86,17 +96,17 @@ public class UserUtils {
         StorageUtils.clearPref(aContext, Constant.PREF_USER_INFO);
     }
 
-    public LoginResponce getUserInfo(Context aContext) {
-        LoginResponce userInfo = null;
+    public User getUserInfo(Context aContext) {
+        User userInfo = null;
         String jsonStr = StorageUtils.getPrefStr(aContext, Constant.PREF_USER_INFO);
         if (jsonStr != null && jsonStr.length() > 1) {
             Gson gson = new Gson();
-            userInfo = gson.fromJson(jsonStr, LoginResponce.class);
+            userInfo = gson.fromJson(jsonStr, User.class);
         }
         return userInfo;
     }
 
-    public void saveUserInfo(Context aContext, LoginResponce aUserInfo) {
+    public void saveUserInfo(Context aContext, User aUserInfo) {
         Gson gson = new Gson();
         String jsonInString = gson.toJson(aUserInfo);
         if (jsonInString != null) {
