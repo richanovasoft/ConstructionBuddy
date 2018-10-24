@@ -22,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.consturctionbuddy.Bean.UserResponse.User;
 import com.consturctionbuddy.Bean.UserResponse.UserInfo;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.Utility.AppController;
@@ -125,45 +126,31 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void startHttpRequestForSignUp() {
 
+
         boolean internetAvailable = Utils.isConnectingToInternet(mContext);
+
         if (internetAvailable) {
             mIsRequestInProgress = true;
-            final String android_id = Settings.System.getString(mContext.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-            String baseUrl = Constant.API_SIGNUP_METHOD;
             showProgressBar();
+            String baseUrl = Constant.API_SIGNUP_METHOD;
             StringRequest mStrRequest = new StringRequest(Request.Method.POST, baseUrl,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-
-                            System.out.println("***loginresponce = " + response);
-
                             try {
 
                                 Gson gson = new GsonBuilder().create();
                                 JsonParser jsonParser = new JsonParser();
                                 JsonObject jsonResp = jsonParser.parse(response).getAsJsonObject();
-                                UserInfo registerResponseObj = gson.fromJson(jsonResp, UserInfo.class);
+                                UserInfo loginResponseData = gson.fromJson(jsonResp, UserInfo.class);
+                                if (loginResponseData != null && loginResponseData.getStatus() == 200) {
+                                    hideProgressBar();
 
-                                if (registerResponseObj != null) {
-                                    if (registerResponseObj.getUser().getLocal() != null) {
-                                        registerSuccessfully();
-                                    } else {
-                                        hideProgressBar();
-                                        new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
-                                                .setTitle(getString(R.string.app_name))
-                                                .setMessage("Unable to Create Account")
-                                                .setCancelable(false)
-                                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
+                                    registerSuccessfully();
 
-                                                    }
-                                                }).show();
-                                    }
                                 } else {
+
                                     hideProgressBar();
                                     new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
                                             .setTitle(getString(R.string.app_name))
@@ -176,11 +163,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
                                                 }
                                             }).show();
-                                    mIsRequestInProgress = false;
                                 }
-
                             } catch (Exception e) {
-
                                 hideProgressBar();
                                 new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
                                         .setTitle(getString(R.string.app_name))
@@ -194,31 +178,47 @@ public class RegistrationActivity extends AppCompatActivity {
                                             }
                                         }).show();
                             }
-                            hideProgressBar();
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
                             hideProgressBar();
                             if (error instanceof NoConnectionError) {
                                 UIUtils.showToast(mContext, getString(R.string.InternetErrorMsg));
                             } else {
-                                UIUtils.showToast(mContext, getString(R.string.VolleyErrorMsg));
+                                hideProgressBar();
+                                new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
+                                        .setTitle(getString(R.string.app_name))
+                                        .setMessage("Unable to Create Account")
+                                        .setCancelable(false)
+                                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.dismiss();
+
+                                            }
+                                        }).show();
                             }
 
                         }
                     }) {
                 @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> params = new HashMap<>();
+                public Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("firstName", mUserNameEt.getText().toString());
                     params.put("email", mEmailEt.getText().toString().trim());
                     params.put("password", mPasswordEt.getText().toString().trim());
-                    params.put("firstname", mUserNameEt.getText().toString());
                     params.put("cpassword", mConfirmPasswordEt.getText().toString());
                     params.put("address", mUserAddress.getText().toString());
                     System.out.println("registration_params = " + params);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
                     return params;
                 }
             };
@@ -229,7 +229,10 @@ public class RegistrationActivity extends AppCompatActivity {
                     10000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        } else {
+            UIUtils.showToast(mContext, getString(R.string.InternetErrorMsg));
         }
+
     }
 
 

@@ -20,10 +20,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.consturctionbuddy.Adapter.LeavesAdapter;
+import com.consturctionbuddy.Activity.NavigationActivity;
 import com.consturctionbuddy.Adapter.SiteImageAdapter;
-import com.consturctionbuddy.Bean.SiteImageBean;
-import com.consturctionbuddy.Bean.SiteImageListBean;
+import com.consturctionbuddy.Bean.SiteImage.SiteImageBean;
+import com.consturctionbuddy.Bean.SiteImage.SiteImageListBean;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.Utility.AppController;
 import com.consturctionbuddy.Utility.Constant;
@@ -80,20 +80,24 @@ public class SiteImageRequestFragment extends Fragment {
     }
 
     private void init() {
+
+        ((NavigationActivity) mContext).setTitle("List site management");
+
         mProgressBarLayout = mMainView.findViewById(R.id.rl_progressBar);
         mRecyclerView = (RecyclerView) mMainView.findViewById(R.id.rv_service_request);
         mServiceList = new ArrayList<>();
 
 
-        startHttpRequestForServiceRequest();
+        startHttpRequestForSiteImageList();
 
     }
 
-    private void startHttpRequestForServiceRequest() {
+    private void startHttpRequestForSiteImageList() {
 
         boolean internetAvailable = Utils.isConnectingToInternet(mContext);
         if (internetAvailable) {
-            String baseUrl = Constant.API_EVENT_LIST;
+            showProgressBar();
+            String baseUrl = Constant.API_SITE_IMAGE_LIST;
             StringRequest mStrRequest = new StringRequest(Request.Method.POST, baseUrl,
                     new Response.Listener<String>() {
                         @Override
@@ -107,15 +111,16 @@ public class SiteImageRequestFragment extends Fragment {
 
                                 if (listResponseBean != null && listResponseBean.getmSiteImageList() != null && listResponseBean.getStatus() == 200) {
 
-                                    setOderList(listResponseBean.getmSiteImageList());
+                                    hideProgressBar();
+                                    setSiteImageList(listResponseBean.getmSiteImageList());
                                 } else {
-
+                                    hideProgressBar();
                                     mRecyclerView.setVisibility(View.GONE);
 
                                 }
 
-
                             } catch (Exception e) {
+                                hideProgressBar();
                                 mRecyclerView.setVisibility(View.GONE);
 
                             }
@@ -126,6 +131,8 @@ public class SiteImageRequestFragment extends Fragment {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            hideProgressBar();
+
                             if (error.getClass().equals(NoConnectionError.class)) {
                             } else {
                                 UIUtils.showToast(mContext, getResources().getString(R.string.VolleyErrorMsg));
@@ -136,6 +143,13 @@ public class SiteImageRequestFragment extends Fragment {
                 public Map<String, String> getParams() throws AuthFailureError {
                     HashMap<String, String> params = new HashMap<>();
                     params.put("userid", UserUtils.getInstance().getUserID(mContext));
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
                     return params;
                 }
             };
@@ -150,10 +164,9 @@ public class SiteImageRequestFragment extends Fragment {
             UIUtils.showToast(mContext, getResources().getString(R.string.InternetErrorMsg));
         }
 
-
     }
 
-    private void setOderList(ArrayList<SiteImageBean> posts) {
+    private void setSiteImageList(ArrayList<SiteImageBean> posts) {
 
         if (posts.size() > 0) {
             mRecyclerView.setVisibility(View.VISIBLE);

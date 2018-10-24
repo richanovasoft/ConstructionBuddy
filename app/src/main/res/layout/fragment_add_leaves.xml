@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/LightSmokyColor"
-    android:gravity="center"
     android:orientation="vertical">
 
     <!--  Recycler View  -->
@@ -12,6 +11,7 @@
         android:id="@+id/rv_service_request"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/rl_plus"
         android:padding="5dp"
         android:scrollbars="none" />
 

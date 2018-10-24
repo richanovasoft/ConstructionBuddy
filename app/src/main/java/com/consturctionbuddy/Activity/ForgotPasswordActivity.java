@@ -176,6 +176,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     params.put(Constant.LOGIN_USERNAME_KEY, mEtEmail.getText().toString());
                     return params;
                 }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    return params;
+                }
             };
             mStrRequest.setShouldCache(false);
             mStrRequest.setTag(TAG);

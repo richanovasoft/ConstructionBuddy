@@ -27,27 +27,56 @@ import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.consturctionbuddy.Activity.NavigationActivity;
 import com.consturctionbuddy.Adapter.MultipleImagesNewAdapter;
+import com.consturctionbuddy.Adapter.SpinnerAdapter;
+import com.consturctionbuddy.Bean.DailyWork.DailyWorkBean;
+import com.consturctionbuddy.Bean.ProjectList.ProjectListBean;
+import com.consturctionbuddy.Bean.ProjectList.Projectlist;
+import com.consturctionbuddy.Bean.Projects.StateInfo;
+import com.consturctionbuddy.Bean.Projects.StateResponse;
 import com.consturctionbuddy.Interface.IMultipleImageNewClickCallback;
 import com.consturctionbuddy.R;
+import com.consturctionbuddy.Utility.AppController;
+import com.consturctionbuddy.Utility.AppHelper;
 import com.consturctionbuddy.Utility.Constant;
 import com.consturctionbuddy.Utility.DateUtils;
 import com.consturctionbuddy.Utility.FilePath;
 import com.consturctionbuddy.Utility.ImageUtils;
 import com.consturctionbuddy.Utility.UIUtils;
+import com.consturctionbuddy.Utility.UserUtils;
 import com.consturctionbuddy.Utility.Utils;
 import com.consturctionbuddy.Utility.ValidatorUtils;
+import com.consturctionbuddy.Utility.VolleyMultipartRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
-public class DailyWorkInformationFragment extends Fragment implements AdapterView.OnItemSelectedListener ,IMultipleImageNewClickCallback {
+public class DailyWorkInformationFragment extends Fragment implements IMultipleImageNewClickCallback {
 
     private Context mContext;
     private View mMainView;
@@ -55,19 +84,18 @@ public class DailyWorkInformationFragment extends Fragment implements AdapterVie
     private AutoCompleteTextView et_prefer_date, et_prefer_time, et_problem_description;
     private Calendar mSelectedDOBCalendar;
 
-    private int mHour, mMinute;
-
     private Button btn_submit, btn_cancel, btnUpload;
 
     private boolean mIsRequestInProgress;
     private boolean mProgressBarShowing = false;
     private RelativeLayout mProgressBarLayout;
-    private String item;
-
     private RecyclerView rv_post_multipleImg;
     private ArrayList<String> mStringsImgList;
     private ArrayList<String> mSelectedImageList;
 
+    private Projectlist mSelectedStateBean;
+    private ArrayList<Projectlist> mStateData;
+    private int mProjectId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,6 +106,8 @@ public class DailyWorkInformationFragment extends Fragment implements AdapterVie
     }
 
     private void init() {
+
+        ((NavigationActivity) mContext).setTitle("Daily work information");
 
         mProgressBarLayout = mMainView.findViewById(R.id.rl_progressBar);
 
@@ -121,29 +151,11 @@ public class DailyWorkInformationFragment extends Fragment implements AdapterVie
         mSelectedDOBCalendar.set(Calendar.YEAR, 1990);
         String dateStr = DateUtils.getDateStr(mSelectedDOBCalendar, DateUtils.DATE_WITHOUT_TIME_SERVER_FORMAT);
         et_prefer_date.setText(dateStr);
+
+
+        startHttpRequestForProjectList();
+
         mSpinnerServices.getBackground().setColorFilter(ContextCompat.getColor(mContext, R.color.colorBlack), PorterDuff.Mode.SRC_ATOP);
-
-        mSpinnerServices.setOnItemSelectedListener(this);
-        String compareValue = "Select Project Name";
-
-        // Spinner Drop down elements
-        List<String> categories = new ArrayList<String>();
-        categories.add("Select Project Name");
-        categories.add("Project A");
-        categories.add("Project B");
-
-        // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, categories);
-
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // attaching data adapter to spinner
-        mSpinnerServices.setAdapter(dataAdapter);
-
-
-        int spinnerPosition = dataAdapter.getPosition(compareValue);
-        mSpinnerServices.setSelection(spinnerPosition);
 
 
         et_prefer_date.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +180,116 @@ public class DailyWorkInformationFragment extends Fragment implements AdapterVie
     }
 
 
+    private void startHttpRequestForProjectList() {
+        boolean internetAvailable = Utils.isConnectingToInternet(mContext);
+        if (internetAvailable) {
+            mIsRequestInProgress = true;
+            String baseUrl = Constant.API_PROJECTS_LIST;
+            showProgressBar();
+            StringRequest mStrRequest = new StringRequest(Request.Method.POST, baseUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+
+
+                                Gson gson = new GsonBuilder().create();
+                                JsonParser jsonParser = new JsonParser();
+                                JsonObject jsonResp = jsonParser.parse(response).getAsJsonObject();
+                                ProjectListBean projectListBean = gson.fromJson(jsonResp, ProjectListBean.class);
+
+                                if (projectListBean.getProjectlist() != null && projectListBean.getProjectlist().size() > 0) {
+
+                                    hideProgressBar();
+                                    //setProjectList(projectListBean);
+
+
+                                } else {
+
+                                    hideProgressBar();
+                                    new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
+                                            .setTitle(getString(R.string.app_name))
+                                            .setMessage("Unable to add daily work information.")
+                                            .setCancelable(false)
+                                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // Whatever...
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
+
+
+                                }
+
+                            } catch (Exception e) {
+                                hideProgressBar();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (mIsRequestInProgress) {
+                                hideProgressBar();
+                                if (error.getClass().equals(NoConnectionError.class)) {
+                                    mSpinnerServices.setVisibility(View.GONE);
+                                } else {
+                                    UIUtils.showToast(mContext, getString(R.string.VolleyErrorMsg));
+                                }
+                            }
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("userid", UserUtils.getInstance().getUserID(mContext));
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    return params;
+                }
+            };
+            mStrRequest.setShouldCache(false);
+            mStrRequest.setTag("");
+            AppController.getInstance().addToRequestQueue(mStrRequest);
+            mStrRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    10000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        } else {
+            mSpinnerServices.setVisibility(View.GONE);
+        }
+    }
+
+    private void setProjectList(final ArrayList<Projectlist> stateList) {
+/*
+        mStateData = stateList.get;
+
+        SpinnerAdapter adapter = new SpinnerAdapter(mContext, R.layout.custom_spinner, stateList.getStateList());
+        mSpinnerServices.setAdapter(adapter);
+        mSpinnerServices.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                mSelectedStateBean = mStateData.get(position);
+                mProjectId = mSelectedStateBean.getmProjectsId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+        });*/
+
+
+
+    }
+
+
     private void captureImage() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -183,7 +305,8 @@ public class DailyWorkInformationFragment extends Fragment implements AdapterVie
         UIUtils.hideKeyBoard(getActivity());
 
         if (mSpinnerServices != null && mSpinnerServices.getSelectedItem() != null) {
-            item = (String) mSpinnerServices.getSelectedItem();
+
+
         } else {
 
             UIUtils.showToast(mContext, "Please select project name.");
@@ -193,53 +316,65 @@ public class DailyWorkInformationFragment extends Fragment implements AdapterVie
                 && ValidatorUtils.NotEmptyValidator(mContext, et_problem_description, true, "Please enter description..")
                 && ValidatorUtils.NotEmptyValidator(mContext, et_prefer_date, true, "Please select date.")) {
 
-            addServiceList();
-            //  startHttpRequestForOngoingProject();
+            startHttpRequestForOngoingProject();
         }
 
     }
 
+  /*  private int getPositionForStateId() {
+        int position = 0;
+        for (int i = 0; i < mStateData.size(); i++) {
+            StateInfo curBean = mStateData.get(i);
+            if (curBean.getmProjectsId() == aStateId) {
+                position = i;
+                break;
+            }
+        }
+        return position;
+    }*/
+
+
     private void startHttpRequestForOngoingProject() {
 
-        /*boolean internetAvailable = Utils.isConnectingToInternet(mContext);
+        boolean internetAvailable = Utils.isConnectingToInternet(mContext);
         if (internetAvailable) {
 
-            String baseUrl = Constant.API_ADD_SERVICE;
+            String baseUrl = Constant.API_DAILY_WORK;
             showProgressBar();
-            StringRequest mStrRequest = new StringRequest(Request.Method.POST, baseUrl,
-                    new Response.Listener<String>() {
+            VolleyMultipartRequest mStrRequest = new VolleyMultipartRequest(Request.Method.POST, baseUrl,
+                    new Response.Listener<NetworkResponse>() {
                         @Override
-                        public void onResponse(String response) {
+                        public void onResponse(NetworkResponse response) {
                             try {
 
-                                JSONObject root = new JSONObject(response);
-                                String strService = root.optString("service_id");
-                                if (strService != null) {
+                                String resultResponse = new String(response.data);
+                                Gson gson = new GsonBuilder().create();
+                                JsonParser jsonParser = new JsonParser();
+                                JsonObject jsonResp = jsonParser.parse(resultResponse).getAsJsonObject();
+                                DailyWorkBean uploadProfileResponse = gson.fromJson(jsonResp, DailyWorkBean.class);
+
+                                if (uploadProfileResponse.getStatus() != null && uploadProfileResponse.getStatus().equals("True")) {
 
                                     hideProgressBar();
                                     addServiceList();
 
 
                                 } else {
-                                    String strStatus = root.optString("status");
-                                    String strMsg = root.optString("message");
-                                    if (strStatus.equals("Failed")) {
 
-                                        hideProgressBar();
-                                        new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
-                                                .setTitle(getString(R.string.app_name))
-                                                .setMessage("Unable to add service.")
-                                                .setCancelable(false)
-                                                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        // Whatever...
-                                                        dialog.dismiss();
-                                                    }
-                                                }).show();
+                                    hideProgressBar();
+                                    new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
+                                            .setTitle(getString(R.string.app_name))
+                                            .setMessage("Unable to add daily work information.")
+                                            .setCancelable(false)
+                                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    // Whatever...
+                                                    dialog.dismiss();
+                                                }
+                                            }).show();
 
 
-                                    }
                                 }
 
                             } catch (Exception e) {
@@ -258,15 +393,33 @@ public class DailyWorkInformationFragment extends Fragment implements AdapterVie
                                 UIUtils.showToast(mContext, getResources().getString(R.string.VolleyErrorMsg));
                             }
                         }
-                    }) {
+                    })
+
+            {
+
+                @Override
+                protected Map<String, DataPart> getByteData() {
+                    Map<String, DataPart> params = new HashMap<>();
+                    // file name could found file base or direct access from real path
+                    // for now just get bitmap data from ImageView
+
+                    for (int i = 0; i < mSelectedImageList.size(); i++) {
+
+                        params.put("project_img[]" + i, new DataPart(mSelectedImageList.get(i).substring(mSelectedImageList.get(i).lastIndexOf("/") + 1),
+                                AppHelper.readBytesFromFile(mSelectedImageList.get(i))));
+                    }
+
+                    return params;
+                }
+
                 @Override
                 public Map<String, String> getParams() throws AuthFailureError {
                     HashMap<String, String> params = new HashMap<>();
                     params.put("userId", UserUtils.getInstance().getUserID(mContext));
-                    params.put("serviceList ", item);
-                    params.put("problemDescription", et_problem_description.getText().toString());
-                    params.put("preferDate", et_prefer_date.getText().toString());
-                    params.put("preferTime ", et_prefer_time.getText().toString());
+                    params.put("projectid", "" + mProjectId);
+                    params.put("today_work_descr", et_problem_description.getText().toString());
+                    params.put("today_work_subject", et_prefer_time.getText().toString());
+                    params.put("working_date", et_prefer_date.getText().toString());
                     return params;
                 }
             };
@@ -279,7 +432,7 @@ public class DailyWorkInformationFragment extends Fragment implements AdapterVie
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         } else {
             UIUtils.showToast(mContext, getResources().getString(R.string.InternetErrorMsg));
-        }*/
+        }
     }
 
 
@@ -427,21 +580,6 @@ public class DailyWorkInformationFragment extends Fragment implements AdapterVie
 
 
         datePickerDialog.show();
-
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        // On selecting a spinner item
-        item = parent.getItemAtPosition(position).toString();
-
-        // Showing selected spinner item
-        //Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
-
-    }
-
-    public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
 
     }
 

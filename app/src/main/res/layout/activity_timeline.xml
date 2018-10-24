@@ -7,275 +7,273 @@
     android:orientation="vertical">
 
 
-    <ScrollView
+    <!-- <ScrollView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignParentTop="true"
+         android:scrollbars="vertical">
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="vertical">
+
+ -->
+    <LinearLayout
+        android:id="@+id/ll_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:scrollbars="vertical">
+        android:layout_gravity="center"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical"
+        android:weightSum="3">
+
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <LinearLayout
-                android:id="@+id/ll_top"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical"
-                android:weightSum="3">
+                android:layout_marginEnd="5dp"
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="80dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
+                    android:layout_gravity="center"
+                    android:layout_weight="0.3"
+                    android:background="#6ccac9"
+                    android:gravity="center">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="80dp"
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="0.5"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
+                        android:src="@drawable/ic_user_account"
+                        android:tint="@color/colorWhite" />
 
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="80dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="0.3"
-                            android:background="#6ccac9"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_user_account"
-                                android:tint="@color/colorWhite" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="80dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="0.7"
-                            android:background="@color/colorWhite"
-                            android:gravity="center">
-
-
-                            <com.consturctionbuddy.custom.CustomRegularTextView
-                                android:id="@+id/tv_total_users"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1"
-                                android:background="@color/colorWhite"
-                                android:text="6 Total Users"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="0.5"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="80dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="0.3"
-                            android:background="@color/orange"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_staff"
-                                android:tint="@color/colorWhite" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/ll_total_staff"
-                            android:layout_width="0dp"
-                            android:layout_height="80dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="0.7"
-                            android:background="@color/colorWhite"
-                            android:gravity="center">
-
-
-                            <com.consturctionbuddy.custom.CustomRegularTextView
-                                android:id="@+id/tv_total_staff"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1"
-                                android:background="@color/colorWhite"
-                                android:text="Total Staff"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="80dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.7"
+                    android:background="@color/colorWhite"
+                    android:gravity="center">
 
-                    android:orientation="horizontal"
-                    android:weightSum="1">
 
-
-                    <LinearLayout
+                    <com.consturctionbuddy.custom.CustomRegularTextView
+                        android:id="@+id/tv_total_users"
                         android:layout_width="0dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="0.5"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="80dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="0.3"
-                            android:background="@color/colorPrimary"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_projects"
-                                android:tint="@color/colorWhite" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="80dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="0.7"
-                            android:background="@color/colorWhite"
-                            android:gravity="center">
-
-
-                            <com.consturctionbuddy.custom.CustomRegularTextView
-                                android:id="@+id/tv_total_projects"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1"
-                                android:background="@color/colorWhite"
-                                android:text="Total Projects"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="80dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="0.5"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="80dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="0.3"
-                            android:background="#57c8f2"
-                            android:gravity="center">
-
-                            <ImageView
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_gravity="center"
-                                android:src="@drawable/ic_material"
-                                android:tint="@color/colorWhite" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="80dp"
-                            android:layout_gravity="center"
-                            android:layout_weight="0.7"
-                            android:background="@color/colorWhite"
-                            android:gravity="center">
-
-
-                            <com.consturctionbuddy.custom.CustomRegularTextView
-                                android:id="@+id/tv_total_material"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:layout_weight="1"
-                                android:background="@color/colorWhite"
-                                android:text="Total Material"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:textSize="14sp" />
                 </LinearLayout>
-
 
             </LinearLayout>
 
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_productImg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:padding="2dp"
-                android:visibility="visible" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.3"
+                    android:background="@color/orange"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_staff"
+                        android:tint="@color/colorWhite" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_total_staff"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.7"
+                    android:background="@color/colorWhite"
+                    android:gravity="center">
+
+
+                    <com.consturctionbuddy.custom.CustomRegularTextView
+                        android:id="@+id/tv_total_staff"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp"
+
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.3"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_projects"
+                        android:tint="@color/colorWhite" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.7"
+                    android:background="@color/colorWhite"
+                    android:gravity="center">
+
+
+                    <com.consturctionbuddy.custom.CustomRegularTextView
+                        android:id="@+id/tv_total_projects"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_weight="0.5"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.3"
+                    android:background="#57c8f2"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_material"
+                        android:tint="@color/colorWhite" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.7"
+                    android:background="@color/colorWhite"
+                    android:gravity="center">
+
+
+                    <com.consturctionbuddy.custom.CustomRegularTextView
+                        android:id="@+id/tv_total_material"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@color/colorWhite"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
 
 
-    </ScrollView>
+    </LinearLayout>
 
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_productImg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_top"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:padding="2dp"
+        android:visibility="visible" />
+
+    <!-- </LinearLayout>
+
+
+ </ScrollView>
+-->
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:visibility="gone">
 
 
         <android.support.design.widget.FloatingActionButton

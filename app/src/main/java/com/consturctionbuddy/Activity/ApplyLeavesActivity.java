@@ -36,6 +36,7 @@ import com.consturctionbuddy.Utility.UIUtils;
 import com.consturctionbuddy.Utility.UserUtils;
 import com.consturctionbuddy.Utility.Utils;
 import com.consturctionbuddy.Utility.ValidatorUtils;
+import com.consturctionbuddy.custom.CustomEditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -49,7 +50,7 @@ import java.util.Map;
 public class ApplyLeavesActivity extends AppCompatActivity {
 
     private Context mContext;
-    private AutoCompleteTextView et_prefer_date, et_prefer_time, et_problem_description;
+    private CustomEditText et_prefer_date, et_prefer_time, et_problem_description;
     private Calendar mSelectedDOBCalendar;
 
     private int mHour, mMinute;
@@ -121,12 +122,12 @@ public class ApplyLeavesActivity extends AppCompatActivity {
 
 
         mSelectedDOBCalendar = Calendar.getInstance();
-        mSelectedDOBCalendar.set(Calendar.DAY_OF_MONTH, 1);
+       /* mSelectedDOBCalendar.set(Calendar.DAY_OF_MONTH, 1);
         mSelectedDOBCalendar.set(Calendar.MONTH, Calendar.JANUARY);
         mSelectedDOBCalendar.set(Calendar.YEAR, 1990);
         String dateStr = DateUtils.getDateStr(mSelectedDOBCalendar, DateUtils.DATE_WITHOUT_TIME_SERVER_FORMAT);
         et_prefer_date.setText(dateStr);
-
+*/
 
         et_prefer_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +137,7 @@ public class ApplyLeavesActivity extends AppCompatActivity {
             }
         });
 
-        et_prefer_date.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        /*et_prefer_date.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -144,7 +145,7 @@ public class ApplyLeavesActivity extends AppCompatActivity {
                     et_prefer_date.clearFocus();
                 }
             }
-        });
+        });*/
 
 
         et_prefer_time.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +156,7 @@ public class ApplyLeavesActivity extends AppCompatActivity {
             }
         });
 
-        et_prefer_time.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+      /*  et_prefer_time.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -164,7 +165,7 @@ public class ApplyLeavesActivity extends AppCompatActivity {
                 }
             }
         });
-
+*/
     }
 
     private void setValidation() {

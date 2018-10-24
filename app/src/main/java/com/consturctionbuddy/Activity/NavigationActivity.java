@@ -18,15 +18,18 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.consturctionbuddy.Bean.UserResponse.User;
 import com.consturctionbuddy.Fragment.DailyWorkInformationFragment;
 import com.consturctionbuddy.Fragment.FirstFragment;
 import com.consturctionbuddy.Fragment.LeaveManagement;
 import com.consturctionbuddy.Fragment.ProfileFragment;
 import com.consturctionbuddy.Fragment.RequestForLeaveFragment;
+import com.consturctionbuddy.Fragment.SiteImageRequestFragment;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.Utility.UserUtils;
 import com.consturctionbuddy.custom.CustomBoldTextView;
 import com.consturctionbuddy.custom.CustomRegularTextView;
+import com.squareup.picasso.Picasso;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,12 +40,17 @@ public class NavigationActivity extends AppCompatActivity
     private ImageView mImgUserProfile;
     private CustomRegularTextView mEtEmail;
     private CustomBoldTextView mEtName;
+    private CustomBoldTextView action_toolbar_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        action_toolbar_name = toolbar.findViewById(R.id.action_toolbar_name);
+
+        action_toolbar_name.setText(R.string.app_name);
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -60,7 +68,25 @@ public class NavigationActivity extends AppCompatActivity
         mEtName = headerView.findViewById(R.id.tv_username);
         mImgUserProfile = headerView.findViewById(R.id.imageView);
 
+        User user = UserUtils.getInstance().getUserInfo(NavigationActivity.this);
+        if (user != null) {
+
+            mEtEmail.setText(user.getLocal().getEmail());
+            mEtName.setText(user.getmStrName());
+
+            if (user.getImg().getPath() != null) {
+                Picasso.with(NavigationActivity.this).load(user.getImg().getPath()).placeholder(R.drawable.ic_user_account).into(mImgUserProfile);
+            } else {
+                mImgUserProfile.setImageResource(R.drawable.ic_user_account);
+            }
+        }
+
         setFragment(R.id.nav_dashboard);
+    }
+
+
+    public void setTitle(String title) {
+        action_toolbar_name.setText(title);
     }
 
 
@@ -93,6 +119,7 @@ public class NavigationActivity extends AppCompatActivity
 
             case R.id.nav_list_site:
 
+                fragment = new SiteImageRequestFragment();
                 break;
 
 

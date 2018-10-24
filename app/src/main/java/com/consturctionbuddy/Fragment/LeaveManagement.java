@@ -19,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.consturctionbuddy.Activity.NavigationActivity;
 import com.consturctionbuddy.Adapter.CalendarAdapter;
 import com.consturctionbuddy.Bean.Leafe;
 import com.consturctionbuddy.Bean.LeavesBean;
@@ -60,6 +61,12 @@ public class LeaveManagement extends Fragment {
     private String strMonth, strYear;
     private View mMainView;
 
+    private RelativeLayout mProgressBarLayout;
+
+    private boolean mIsRequestInProgress;
+    private boolean mProgressBarShowing = false;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mContext = getActivity();
@@ -69,6 +76,8 @@ public class LeaveManagement extends Fragment {
     }
 
     private void init() {
+
+        ((NavigationActivity) mContext).setTitle("Leave Management");
 
         mContext = getActivity();
         values = new ArrayList<>();
@@ -84,6 +93,7 @@ public class LeaveManagement extends Fragment {
 
         GridView gridview = (GridView) mMainView.findViewById(R.id.gridview);
         gridview.setAdapter(adapter);
+        mProgressBarLayout = mMainView.findViewById(R.id.rl_progressBar);
 
 
         String strCurrentdate = adapter.addCurrentDate();
@@ -157,7 +167,8 @@ public class LeaveManagement extends Fragment {
 
         boolean internetAvailable = Utils.isConnectingToInternet(mContext);
         if (internetAvailable) {
-            String baseUrl = Constant.API_EVENT_LIST;
+            String baseUrl = Constant.API_LEAVE_REQUEST_LIST;
+            showProgressBar();
             StringRequest mStrRequest = new StringRequest(Request.Method.POST, baseUrl,
                     new Response.Listener<String>() {
                         @Override
@@ -171,20 +182,25 @@ public class LeaveManagement extends Fragment {
 
                                 if (listResponseBean != null && listResponseBean.getLeaves() != null && listResponseBean.getStatus() == 200) {
 
+                                    hideProgressBar();
                                     setEventItemList(listResponseBean.getLeaves());
+                                }else {
+                                    hideProgressBar();
+
                                 }
 
 
                             } catch (Exception e) {
+                                hideProgressBar();
 
                             }
-
 
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            hideProgressBar();
                             if (error.getClass().equals(NoConnectionError.class)) {
                             } else {
                                 UIUtils.showToast(mContext, getResources().getString(R.string.VolleyErrorMsg));
@@ -274,4 +290,19 @@ public class LeaveManagement extends Fragment {
         title.setText(android.text.format.DateFormat.format("MMMM yyyy", month));
     }
 
+
+    private void hideProgressBar() {
+        mIsRequestInProgress = false;
+        if (mProgressBarShowing) {
+            mProgressBarLayout.setVisibility(View.GONE);
+            mProgressBarShowing = false;
+        }
+    }
+
+    private void showProgressBar() {
+        if (!mProgressBarShowing) {
+            mProgressBarLayout.setVisibility(View.VISIBLE);
+            mProgressBarShowing = true;
+        }
+    }
 }

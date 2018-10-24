@@ -108,7 +108,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Company Number"
-                            android:inputType="textEmailAddress"
+                            android:inputType="phone"
                             android:textCursorDrawable="@null"
                             android:textSize="14sp" />
                     </android.support.design.widget.TextInputLayout>
@@ -126,7 +126,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="top|start"
                             android:gravity="start|top"
-                            android:hint="Company  Address"
+                            android:hint="Company Address"
                             android:inputType="textMultiLine"
                             android:lines="4"
                             android:textCursorDrawable="@null"
@@ -146,7 +146,7 @@
                             android:layout_height="80dp"
                             android:layout_gravity="center"
                             android:src="@drawable/placeholder"
-                            android:visibility="gone" />
+                            android:visibility="visible" />
 
                         <com.consturctionbuddy.custom.CustomBoldTextView
                             android:id="@+id/tv_company_logo"
@@ -179,7 +179,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:background="@drawable/round_btn_primary"
-                            android:text="Update Info"
+                            android:text="Update Company Info"
                             android:textAllCaps="false"
                             android:textColor="@color/colorWhite"
                             android:textSize="16sp" />

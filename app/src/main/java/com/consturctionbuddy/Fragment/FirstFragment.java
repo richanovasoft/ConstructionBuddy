@@ -21,12 +21,14 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.consturctionbuddy.Activity.NavigationActivity;
 import com.consturctionbuddy.Activity.ShowPagerImagesActivity;
 import com.consturctionbuddy.Activity.TotalStaffActivity;
 import com.consturctionbuddy.Adapter.HomeDataAdapter;
 import com.consturctionbuddy.Bean.LeavesBean;
 import com.consturctionbuddy.Bean.SectionDataModel;
 import com.consturctionbuddy.Bean.TimeLine.Datum;
+import com.consturctionbuddy.Bean.TimeLine.ProjectImg;
 import com.consturctionbuddy.Bean.TimeLine.TimeLineBean;
 import com.consturctionbuddy.Bean.TimeLineImage;
 import com.consturctionbuddy.Bean.UserResponse.TotalCount;
@@ -62,8 +64,6 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
     private boolean mProgressBarShowing = false;
     private boolean mIsRequestInProgress;
     private RelativeLayout mProgressBarLayout;
-
-    private SectionDataModel dm;
     private LinearLayout ll_total_staff;
     private CustomRegularTextView tv_total_material, tv_total_staff, tv_total_projects, tv_total_Users;
 
@@ -78,6 +78,8 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
 
     private void init() {
 
+        ((NavigationActivity) mContext).setTitle(R.string.app_name);
+
         mTimeLineImageList = new ArrayList<>();
         mTimeList = mMainView.findViewById(R.id.rv_productImg);
         ll_total_staff = mMainView.findViewById(R.id.ll_total_staff);
@@ -91,8 +93,8 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
         ll_total_staff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, TotalStaffActivity.class);
-                startActivity(intent);
+                // Intent intent = new Intent(mContext, TotalStaffActivity.class);
+                // startActivity(intent);
             }
         });
 
@@ -112,25 +114,32 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
                         @Override
                         public void onResponse(String response) {
                             try {
-                                Gson gson = new Gson();
-                                Type listType = new TypeToken<List<Datum>>() {
-                                }.getType();
-                                ArrayList<Datum> posts = gson.fromJson(response, listType);
-                                if (posts != null && posts.size() > 0) {
-                                    hideProgressBar();
-                                    setMultipleList(posts);
-                                } else {
 
+
+                                Gson gson = new GsonBuilder().create();
+                                JsonParser jsonParser = new JsonParser();
+                                JsonObject jsonResp = jsonParser.parse(response).getAsJsonObject();
+                                TimeLineBean timeLineBean = gson.fromJson(jsonResp, TimeLineBean.class);
+                                if (timeLineBean != null && timeLineBean.getStatus() == 200) {
+                                    hideProgressBar();
+
+                                    hideProgressBar();
+                                    setMultipleList(timeLineBean.getData());
+                                } else {
+                                    mTimeList.setVisibility(View.GONE);
 
                                 }
+
                             } catch (Exception e) {
+
+                                e.printStackTrace();
+                                System.out.println("e = " + e.getMessage());
+                                mTimeList.setVisibility(View.GONE);
 
                             }
                         }
                     },
-                    new Response.ErrorListener()
-
-                    {
+                    new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             if (error.getClass().equals(NoConnectionError.class)) {
@@ -138,9 +147,7 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
                                 UIUtils.showToast(mContext, getResources().getString(R.string.VolleyErrorMsg));
                             }
                         }
-                    })
-
-            {
+                    }) {
                 @Override
                 public Map<String, String> getParams() throws AuthFailureError {
                     HashMap<String, String> params = new HashMap<>();
@@ -196,18 +203,8 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
         }
     }*/
 
-    @Override
-    public void itemClicked(int aIndex, SectionDataModel aTimeLineImage) {
-        showOverFlowImages(aIndex, dm);
-    }
 
-    @Override
-    public void itemOverFlow(int aIndex, SectionDataModel aTimeLineImage) {
-        showOverFlowImages(aIndex, dm);
-    }
-
-
-    private void showOverFlowImages(int aIndex, SectionDataModel aTimeLineImage) {
+    private void showOverFlowImages(int aIndex, ProjectImg aTimeLineImage) {
         Intent intent = new Intent(mContext, ShowPagerImagesActivity.class);
         intent.putExtra(Constant.INTENT_IMAGE_SELECTED_INDEX_KEY, aIndex);
         intent.putExtra(Constant.INTENT_IMAGE_LIST_INDEX_KEY, aTimeLineImage);
@@ -284,6 +281,16 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
             mProgressBarLayout.setVisibility(View.VISIBLE);
             mProgressBarShowing = true;
         }
+    }
+
+    @Override
+    public void itemClicked(int aIndex, ProjectImg aTimeLineImage) {
+        showOverFlowImages(aIndex, aTimeLineImage);
+    }
+
+    @Override
+    public void itemOverFlow(int aIndex, ProjectImg aTimeLineImage) {
+        showOverFlowImages(aIndex, aTimeLineImage);
     }
 }
 

@@ -6,8 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
-import com.consturctionbuddy.Bean.SiteImageBean;
+import com.consturctionbuddy.Bean.SiteImage.SiteImageBean;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.custom.CustomRegularTextView;
 
@@ -42,9 +43,13 @@ public class SiteImageAdapter extends RecyclerView.Adapter<SiteImageAdapter.MyVi
         final SiteImageBean curBean = mSiteImageList.get(position);
 
         holder.tv_service1.setText(curBean.getmSiteName());
-        holder.tv_service2.setText(curBean.getmSiteImage());
-        holder.tv_service3.setText(curBean.getmUpdate());
-        holder.tv_service4.setText(curBean.getmRemove());
+
+        holder.ll_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
     }
@@ -56,17 +61,14 @@ public class SiteImageAdapter extends RecyclerView.Adapter<SiteImageAdapter.MyVi
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         CustomRegularTextView tv_service1;
-        CustomRegularTextView tv_service2;
-        CustomRegularTextView tv_service3;
-        CustomRegularTextView tv_service4;
+        private LinearLayout ll_edit;
 
 
         MyViewHolder(View itemView) {
             super(itemView);
             tv_service1 = itemView.findViewById(R.id.tv_staff_name);
-            tv_service2 = itemView.findViewById(R.id.tv_staff_email);
-            tv_service3 = itemView.findViewById(R.id.tv_staff_jod);
-            tv_service4 = itemView.findViewById(R.id.tv_service4);
+            ll_edit = itemView.findViewById(R.id.ll_edit);
+
 
         }
     }

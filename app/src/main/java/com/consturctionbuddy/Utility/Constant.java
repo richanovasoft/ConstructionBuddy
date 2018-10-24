@@ -118,13 +118,12 @@ public class Constant {
     public static final String API_FORGOT_PASSWORD = API_BASE_URL + FORGOT_PASSWORD;
 
 
-    private static final String CHANGE_PASSWORD = "/changePassApi.php";
+    private static final String CHANGE_PASSWORD = "/changePasswordApi.php";
     public static final String API_CHANGE_PASSWORD = API_BASE_URL + CHANGE_PASSWORD;
 
 
     private static final String TOTAL_COUNT = "/totalAllCount";
     public static final String API_TOTAL_COUNT = API_BASE_URL + TOTAL_COUNT;
-
 
 
     private static final String HOME = "/TimelineAdminApi";
@@ -139,10 +138,6 @@ public class Constant {
     public static final String APPLY_LEAVES_API = API_BASE_URL + ADD_SERVICE;
 
 
-    private static final String ADD_MEAL = "/updateMealApi.php";
-    public static final String API_ADD_MEAL = API_BASE_URL + ADD_MEAL;
-
-
     private static final String UPDATE_PROFILE = "/updateProfileApi";
     public static final String API_UPDATE_PROFILE = API_BASE_URL + UPDATE_PROFILE;
 
@@ -151,14 +146,19 @@ public class Constant {
     public static final String API_UPDATE_IMAGE = API_BASE_URL + UPDATE_IMAGE;
 
 
+    private static final String UPDATE_COMPANY_PROFILE = "/updateCompanyProfileApi";
+    public static final String API_UPDATE_COMPANY_PROFILE = API_BASE_URL + UPDATE_COMPANY_PROFILE;
 
-    private static final String PAN_CARD_IMAGE = "/staffImageUploadAp";
+
+    private static final String COMPANY_LOGO = "/companyImageUploadApi";
+    public static final String API_COMPANY_LOGO = API_BASE_URL + COMPANY_LOGO;
+
+    private static final String PAN_CARD_IMAGE = "/staffImageUploadApi";
     public static final String API_PAN_CARD_IMAGE = API_BASE_URL + PAN_CARD_IMAGE;
 
 
-
-    private static final String EVENT_LIST = "/LeaveListApi";
-    public static final String API_EVENT_LIST = API_BASE_URL + EVENT_LIST;
+    private static final String LEAVE_REQUEST_LIST = "/LeaveListApi";
+    public static final String API_LEAVE_REQUEST_LIST = API_BASE_URL + LEAVE_REQUEST_LIST;
 
 
     private static final String TOTAL_STAFF_LIST = "/LeaveListApi";
@@ -168,4 +168,14 @@ public class Constant {
     private static final String TOTAL_USER_LIST = "/LeaveListApi";
     public static final String API_TOTAL_USER_LIST = API_BASE_URL + TOTAL_USER_LIST;
 
+    private static final String PROJECTS_LIST = "/allotProject";
+    public static final String API_PROJECTS_LIST = API_BASE_URL + PROJECTS_LIST;
+
+
+    private static final String DAILY_WORK = "/dailyworkApi";
+    public static final String API_DAILY_WORK = API_BASE_URL + DAILY_WORK;
+
+
+    private static final String SITE_IMAGE_LIST = "/SiteImageApiListById";
+    public static final String API_SITE_IMAGE_LIST = API_BASE_URL + SITE_IMAGE_LIST;
 }

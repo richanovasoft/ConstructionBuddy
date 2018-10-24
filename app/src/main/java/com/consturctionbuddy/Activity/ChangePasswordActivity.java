@@ -1,6 +1,8 @@
 package com.consturctionbuddy.Activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -67,6 +69,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setTitle("Change Password");
         }
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -135,7 +138,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                                 JsonParser jsonParser = new JsonParser();
                                 JsonObject jsonResp = jsonParser.parse(response).getAsJsonObject();
                                 StatusBean forgetPasswordBean = gson.fromJson(jsonResp, StatusBean.class);
-                                if (forgetPasswordBean != null) {
+                                if (forgetPasswordBean != null && forgetPasswordBean.getStatus() == 200) {
 
                                     hideProgressBar();
                                     showChangePasswordPopUp(forgetPasswordBean);
@@ -228,11 +231,18 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         }
                     }) {
                 @Override
+                public Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("userid", UserUtils.getInstance().getUserID(mContext));
+                    params.put("npassword", mEtLoginPassword.getText().toString());
+                    params.put("cpassword", mEtLoginNewPassword.getText().toString());
+                    return params;
+                }
+
+                @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
-                    params.put(Constant.LOGIN_USERNAME_KEY, userUtils.getLocal().getEmail());
-                    params.put("oldPassword", mEtLoginPassword.getText().toString());
-                    params.put("newPassword", mEtLoginNewPassword.getText().toString());
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
                     return params;
                 }
             };
@@ -270,10 +280,22 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private void showChangePasswordPopUp(StatusBean aLoginResponseObj) {
         if (aLoginResponseObj != null) {
 
-            Intent intent = new Intent(mContext, NavigationActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+            new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
+                    .setTitle(getString(R.string.RegisterSuccessfulTitle))
+                    .setMessage(aLoginResponseObj.getMessage())
+                    .setCancelable(false)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(mContext, NavigationActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                    })
+                    .setIcon(R.mipmap.ic_launcher)
+                    .show();
+
         }
     }
 

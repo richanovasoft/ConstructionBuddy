@@ -26,8 +26,6 @@ public class Leafe {
     @SerializedName("userid")
     private String mUserid;
 
-    @SerializedName("__v")
-    private int m_V;
 
     @SerializedName("_id")
     private String m_id;
@@ -86,14 +84,6 @@ public class Leafe {
 
     public void setUserid(String userid) {
         mUserid = userid;
-    }
-
-    public int get_V() {
-        return m_V;
-    }
-
-    public void set_V(int _V) {
-        m_V = _V;
     }
 
     public String get_id() {

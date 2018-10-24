@@ -24,8 +24,23 @@ public class User {
     private String m_id;
 
 
-    @SerializedName("firstname")
+    @SerializedName("firstName")
     private String mStrName;
+
+    @SerializedName("phone")
+    private String mstrPhone;
+
+    @SerializedName("companyName")
+    private String mStrCompanyName;
+
+    @SerializedName("companyEmail")
+    private String mStrCompanyEmail;
+
+    @SerializedName("companyPhone")
+    private String mStrCompanyPhone;
+
+    @SerializedName("companyAddress")
+    private String mStrCompanyAdd;
 
     public String getAddress() {
         return mAddress;
@@ -82,5 +97,46 @@ public class User {
 
     public void setmStrName(String mStrName) {
         this.mStrName = mStrName;
+    }
+
+
+    public String getMstrPhone() {
+        return mstrPhone;
+    }
+
+    public void setMstrPhone(String mstrPhone) {
+        this.mstrPhone = mstrPhone;
+    }
+
+    public String getmStrCompanyName() {
+        return mStrCompanyName;
+    }
+
+    public void setmStrCompanyName(String mStrCompanyName) {
+        this.mStrCompanyName = mStrCompanyName;
+    }
+
+    public String getmStrCompanyEmail() {
+        return mStrCompanyEmail;
+    }
+
+    public void setmStrCompanyEmail(String mStrCompanyEmail) {
+        this.mStrCompanyEmail = mStrCompanyEmail;
+    }
+
+    public String getmStrCompanyPhone() {
+        return mStrCompanyPhone;
+    }
+
+    public void setmStrCompanyPhone(String mStrCompanyPhone) {
+        this.mStrCompanyPhone = mStrCompanyPhone;
+    }
+
+    public String getmStrCompanyAdd() {
+        return mStrCompanyAdd;
+    }
+
+    public void setmStrCompanyAdd(String mStrCompanyAdd) {
+        this.mStrCompanyAdd = mStrCompanyAdd;
     }
 }

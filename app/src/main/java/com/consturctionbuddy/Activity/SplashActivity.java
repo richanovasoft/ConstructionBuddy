@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +15,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.Utility.Constant;
@@ -31,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        changeStatusBarColor();
         findHashKey();
         mContext = this;
         if (getSupportActionBar() != null) {
@@ -90,6 +93,16 @@ public class SplashActivity extends AppCompatActivity {
                 Manifest.permission.CAMERA,
         }, RequestPermissionCode);
 
+    }
+
+
+    private void changeStatusBarColor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            int color = ContextCompat.getColor(this, R.color.colorPrimary);
+            window.setStatusBarColor(color);
+        }
     }
 
     // Calling override method.

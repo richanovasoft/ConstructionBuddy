@@ -12,7 +12,7 @@
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_splash" />
+        android:src="@mipmap/ic_launcher" />
 
     <com.consturctionbuddy.custom.CustomBoldTextView
         android:layout_width="match_parent"

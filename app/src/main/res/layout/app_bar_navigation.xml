@@ -17,8 +17,39 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:theme="@style/ToolBarStyle" />
+            app:theme="@style/ToolBarStyle" >
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+
+                <com.consturctionbuddy.custom.CustomBoldTextView
+                    android:id="@+id/action_toolbar_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.75"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="18sp" />
+
+                <com.consturctionbuddy.custom.CustomBoldTextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.25"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+
+
+
+        </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_navigation" />

@@ -1,5 +1,5 @@
 
-package com.consturctionbuddy.Bean;
+package com.consturctionbuddy.Bean.SiteImage;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class SiteImageListBean {
 
-    @SerializedName("site_image")
+    @SerializedName("data")
     private ArrayList<SiteImageBean> mSiteImageList;
 
     @SerializedName("status")

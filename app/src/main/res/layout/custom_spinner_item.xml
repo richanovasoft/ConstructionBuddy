@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/v_spinner_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@color/LightSmokyColor"
+        android:orientation="horizontal"
+        android:visibility="gone" />
+
+    <com.consturctionbuddy.custom.CustomRegularTextView
+        android:id="@+id/tv_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:padding="5dp"
+        android:text="@string/demoText"
+        android:textColor="@color/colorBlack">
+
+    </com.consturctionbuddy.custom.CustomRegularTextView>
+
+    <View
+        android:id="@+id/v_spinner_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@color/LightSmokyColor"
+        android:orientation="horizontal"
+        android:visibility="visible" />
+</LinearLayout>

@@ -67,4 +67,10 @@
 
 
     </RelativeLayout>
+
+
+    <include
+        android:id="@+id/rl_progressBar"
+        layout="@layout/progress_bar_layout"
+        android:visibility="gone" />
 </RelativeLayout>

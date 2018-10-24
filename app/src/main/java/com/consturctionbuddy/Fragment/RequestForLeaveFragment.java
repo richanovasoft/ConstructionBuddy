@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.consturctionbuddy.Activity.ApplyLeavesActivity;
+import com.consturctionbuddy.Activity.NavigationActivity;
 import com.consturctionbuddy.Adapter.LeavesAdapter;
 import com.consturctionbuddy.Bean.Leafe;
 import com.consturctionbuddy.Bean.LeavesBean;
@@ -36,10 +38,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class RequestForLeaveFragment extends Fragment {
@@ -47,8 +47,8 @@ public class RequestForLeaveFragment extends Fragment {
     private View mMainView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
-    private LeavesAdapter mServiceAdapter;
-    private ArrayList<Leafe> mServiceList;
+    private LeavesAdapter mLeaveListAdapter;
+    private ArrayList<Leafe> mleaveList;
     private Context mContext;
 
     private boolean mIsRequestInProgress;
@@ -56,7 +56,7 @@ public class RequestForLeaveFragment extends Fragment {
     private RelativeLayout mProgressBarLayout;
 
 
-    private RelativeLayout rl_plus;
+    private FloatingActionButton fab_add_my_album_listing;
 
     public RequestForLeaveFragment() {
         // Required empty public constructor
@@ -84,28 +84,32 @@ public class RequestForLeaveFragment extends Fragment {
     }
 
     private void init() {
+
+        ((NavigationActivity) mContext).setTitle("Request for leave");
+
         mProgressBarLayout = mMainView.findViewById(R.id.rl_progressBar);
         mRecyclerView = (RecyclerView) mMainView.findViewById(R.id.rv_service_request);
-        rl_plus = mMainView.findViewById(R.id.rl_plus);
-        rl_plus.setOnClickListener(new View.OnClickListener() {
+        fab_add_my_album_listing = mMainView.findViewById(R.id.fab_add_my_album_listing);
+        fab_add_my_album_listing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ApplyLeavesActivity.class);
-                startActivity(intent);
+                mContext.startActivity(intent);
             }
         });
-        mServiceList = new ArrayList<>();
+        mleaveList = new ArrayList<>();
 
 
-        startHttpRequestForServiceRequest();
+        startHttpRequestForLeaveRequest();
 
     }
 
-    private void startHttpRequestForServiceRequest() {
+    private void startHttpRequestForLeaveRequest() {
 
         boolean internetAvailable = Utils.isConnectingToInternet(mContext);
         if (internetAvailable) {
-            String baseUrl = Constant.API_EVENT_LIST;
+            String baseUrl = Constant.API_LEAVE_REQUEST_LIST;
+            showProgressBar();
             StringRequest mStrRequest = new StringRequest(Request.Method.POST, baseUrl,
                     new Response.Listener<String>() {
                         @Override
@@ -119,15 +123,17 @@ public class RequestForLeaveFragment extends Fragment {
 
                                 if (listResponseBean != null && listResponseBean.getLeaves() != null && listResponseBean.getStatus() == 200) {
 
-                                    setOderList(listResponseBean.getLeaves());
-                                }else {
-
+                                    hideProgressBar();
+                                    setLeaveList(listResponseBean.getLeaves());
+                                } else {
+                                    hideProgressBar();
                                     mRecyclerView.setVisibility(View.GONE);
 
                                 }
 
 
                             } catch (Exception e) {
+                                hideProgressBar();
                                 mRecyclerView.setVisibility(View.GONE);
 
                             }
@@ -138,6 +144,7 @@ public class RequestForLeaveFragment extends Fragment {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            hideProgressBar();
                             if (error.getClass().equals(NoConnectionError.class)) {
                             } else {
                                 UIUtils.showToast(mContext, getResources().getString(R.string.VolleyErrorMsg));
@@ -165,16 +172,16 @@ public class RequestForLeaveFragment extends Fragment {
 
     }
 
-    private void setOderList(ArrayList<Leafe> posts) {
+    private void setLeaveList(ArrayList<Leafe> posts) {
 
         if (posts.size() > 0) {
             mRecyclerView.setVisibility(View.VISIBLE);
-            mServiceList = posts;
-            mServiceAdapter = new LeavesAdapter(mContext, mServiceList);
+            mleaveList = posts;
+            mLeaveListAdapter = new LeavesAdapter(mContext, mleaveList);
             mLayoutManager = new LinearLayoutManager(mContext);
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            mRecyclerView.setAdapter(mServiceAdapter);
+            mRecyclerView.setAdapter(mLeaveListAdapter);
             mRecyclerView.setNestedScrollingEnabled(false);
         }
     }

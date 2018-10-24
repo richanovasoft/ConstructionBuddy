@@ -505,11 +505,18 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     }) {
                 @Override
                 public Map<String, String> getParams() throws AuthFailureError {
-                    HashMap<String, String> params = new HashMap<>();
+                    Map<String, String> params = new HashMap<>();
                     params.put(Constant.LOGIN_USERNAME_KEY, mEmailView.getText().toString());
                     params.put(Constant.LOGIN_PASSWORD_KEY, mPasswordView.getText().toString().trim());
                     //params.put("deviceId", android_id);
                     //params.put("firebaseRegistrationId", refreshedToken);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
                     return params;
                 }
             };
