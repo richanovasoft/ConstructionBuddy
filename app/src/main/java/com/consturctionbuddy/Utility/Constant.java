@@ -126,7 +126,7 @@ public class Constant {
     public static final String API_TOTAL_COUNT = API_BASE_URL + TOTAL_COUNT;
 
 
-    private static final String HOME = "/TimelineAdminApi";
+    private static final String HOME = "/TimelineStaffApi";
     public static final String API_HOME = API_BASE_URL + HOME;
 
 

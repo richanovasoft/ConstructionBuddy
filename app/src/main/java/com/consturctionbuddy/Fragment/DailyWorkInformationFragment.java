@@ -91,11 +91,9 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
     private RelativeLayout mProgressBarLayout;
     private RecyclerView rv_post_multipleImg;
     private ArrayList<String> mStringsImgList;
-    private ArrayList<String> mSelectedImageList;
-
     private Projectlist mSelectedStateBean;
     private ArrayList<Projectlist> mStateData;
-    private int mProjectId;
+    private String mProjectId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -116,6 +114,7 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
         et_problem_description = mMainView.findViewById(R.id.et_problem_description);
         btn_submit = mMainView.findViewById(R.id.btn_submit);
         btn_cancel = mMainView.findViewById(R.id.btn_cancel);
+        mStringsImgList = new ArrayList<>();
 
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,7 +200,7 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
                                 if (projectListBean.getProjectlist() != null && projectListBean.getProjectlist().size() > 0) {
 
                                     hideProgressBar();
-                                    //setProjectList(projectListBean);
+                                    setProjectList(projectListBean);
 
 
                                 } else {
@@ -266,9 +265,9 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
         }
     }
 
-    private void setProjectList(final ArrayList<Projectlist> stateList) {
-/*
-        mStateData = stateList.get;
+    private void setProjectList(final ProjectListBean stateList) {
+
+        mStateData = stateList.getProjectlist();
 
         SpinnerAdapter adapter = new SpinnerAdapter(mContext, R.layout.custom_spinner, stateList.getStateList());
         mSpinnerServices.setAdapter(adapter);
@@ -276,15 +275,14 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 mSelectedStateBean = mStateData.get(position);
-                mProjectId = mSelectedStateBean.getmProjectsId();
+                mProjectId = mSelectedStateBean.get_id();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
 
             }
-        });*/
-
+        });
 
 
     }
@@ -320,18 +318,6 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
         }
 
     }
-
-  /*  private int getPositionForStateId() {
-        int position = 0;
-        for (int i = 0; i < mStateData.size(); i++) {
-            StateInfo curBean = mStateData.get(i);
-            if (curBean.getmProjectsId() == aStateId) {
-                position = i;
-                break;
-            }
-        }
-        return position;
-    }*/
 
 
     private void startHttpRequestForOngoingProject() {
@@ -393,9 +379,7 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
                                 UIUtils.showToast(mContext, getResources().getString(R.string.VolleyErrorMsg));
                             }
                         }
-                    })
-
-            {
+                    }) {
 
                 @Override
                 protected Map<String, DataPart> getByteData() {
@@ -403,10 +387,10 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
                     // file name could found file base or direct access from real path
                     // for now just get bitmap data from ImageView
 
-                    for (int i = 0; i < mSelectedImageList.size(); i++) {
+                    for (int i = 0; i < mStringsImgList.size(); i++) {
 
-                        params.put("project_img[]" + i, new DataPart(mSelectedImageList.get(i).substring(mSelectedImageList.get(i).lastIndexOf("/") + 1),
-                                AppHelper.readBytesFromFile(mSelectedImageList.get(i))));
+                        params.put("project_img" + "[" + i + "]", new DataPart(mStringsImgList.get(i).substring(mStringsImgList.get(i).lastIndexOf("/") + 1),
+                                AppHelper.readBytesFromFile(mStringsImgList.get(i))));
                     }
 
                     return params;
@@ -416,7 +400,7 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
                 public Map<String, String> getParams() throws AuthFailureError {
                     HashMap<String, String> params = new HashMap<>();
                     params.put("userId", UserUtils.getInstance().getUserID(mContext));
-                    params.put("projectid", "" + mProjectId);
+                    params.put("projectid", mProjectId);
                     params.put("today_work_descr", et_problem_description.getText().toString());
                     params.put("today_work_subject", et_prefer_time.getText().toString());
                     params.put("working_date", et_prefer_date.getText().toString());
@@ -441,7 +425,6 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
         if (requestCode == Constant.CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
             mIsRequestInProgress = true;
             rv_post_multipleImg.setVisibility(View.VISIBLE);
-            mStringsImgList = new ArrayList<>();
 
             if (resultCode == RESULT_OK) {
                 if (data.getData() != null) {
@@ -493,7 +476,7 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
 
     public void setImagePath(Uri mSelectedSingleImageUri) {
         String selectedFilePath = FilePath.getPath(mContext, mSelectedSingleImageUri);
-        mSelectedImageList.add(selectedFilePath);
+        mStringsImgList.add(selectedFilePath);
 
         if (selectedFilePath != null && mSelectedSingleImageUri.getPath() != null && !mSelectedSingleImageUri.getPath().equals("")) {
 
@@ -550,6 +533,9 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+
+                        Intent intent = new Intent(mContext, NavigationActivity.class);
+                        mContext.startActivity(intent);
 
 
                     }

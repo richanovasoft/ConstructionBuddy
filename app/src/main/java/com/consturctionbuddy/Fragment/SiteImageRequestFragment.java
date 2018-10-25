@@ -24,6 +24,7 @@ import com.consturctionbuddy.Activity.NavigationActivity;
 import com.consturctionbuddy.Adapter.SiteImageAdapter;
 import com.consturctionbuddy.Bean.SiteImage.SiteImageBean;
 import com.consturctionbuddy.Bean.SiteImage.SiteImageListBean;
+import com.consturctionbuddy.Interface.ISiteImageEditClickListner;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.Utility.AppController;
 import com.consturctionbuddy.Utility.Constant;
@@ -39,7 +40,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SiteImageRequestFragment extends Fragment {
+public class SiteImageRequestFragment extends Fragment implements ISiteImageEditClickListner {
 
     private View mMainView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -51,7 +52,6 @@ public class SiteImageRequestFragment extends Fragment {
     private boolean mIsRequestInProgress;
     private boolean mProgressBarShowing = false;
     private RelativeLayout mProgressBarLayout;
-
 
 
     public SiteImageRequestFragment() {
@@ -171,7 +171,7 @@ public class SiteImageRequestFragment extends Fragment {
         if (posts.size() > 0) {
             mRecyclerView.setVisibility(View.VISIBLE);
             mServiceList = posts;
-            mSiteImageAdapter = new SiteImageAdapter(mContext, mServiceList);
+            mSiteImageAdapter = new SiteImageAdapter(mContext, mServiceList, this);
             mLayoutManager = new LinearLayoutManager(mContext);
             mRecyclerView.setLayoutManager(mLayoutManager);
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -198,6 +198,11 @@ public class SiteImageRequestFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+    }
+
+    @Override
+    public void iSiteImagEditClick(SiteImageBean siteImageBean) {
 
     }
 }

@@ -1,6 +1,7 @@
 package com.consturctionbuddy.Fragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -66,6 +67,7 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
     private RelativeLayout mProgressBarLayout;
     private LinearLayout ll_total_staff;
     private CustomRegularTextView tv_total_material, tv_total_staff, tv_total_projects, tv_total_Users;
+    private LinearLayout ll_top;
 
 
     @Override
@@ -82,6 +84,8 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
 
         mTimeLineImageList = new ArrayList<>();
         mTimeList = mMainView.findViewById(R.id.rv_productImg);
+        ll_top = mMainView.findViewById(R.id.ll_top);
+        ll_top.setVisibility(View.GONE);
         ll_total_staff = mMainView.findViewById(R.id.ll_total_staff);
         tv_total_material = mMainView.findViewById(R.id.tv_total_material);
         tv_total_staff = mMainView.findViewById(R.id.tv_total_staff);
@@ -107,9 +111,9 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
 
         boolean internetAvailable = Utils.isConnectingToInternet(mContext);
         if (internetAvailable) {
-
-            String baseUrl = Constant.API_HOME + "?" + "userid=" + UserUtils.getInstance().getUserID(mContext);
-            StringRequest mStrRequest = new StringRequest(Request.Method.GET, baseUrl,
+            showProgressBar();
+            String baseUrl = Constant.API_HOME;
+            StringRequest mStrRequest = new StringRequest(Request.Method.POST, baseUrl,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -121,16 +125,17 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
                                 JsonObject jsonResp = jsonParser.parse(response).getAsJsonObject();
                                 TimeLineBean timeLineBean = gson.fromJson(jsonResp, TimeLineBean.class);
                                 if (timeLineBean != null && timeLineBean.getStatus() == 200) {
-                                    hideProgressBar();
 
                                     hideProgressBar();
                                     setMultipleList(timeLineBean.getData());
                                 } else {
+                                    hideProgressBar();
                                     mTimeList.setVisibility(View.GONE);
 
                                 }
 
                             } catch (Exception e) {
+                                hideProgressBar();
 
                                 e.printStackTrace();
                                 System.out.println("e = " + e.getMessage());
@@ -142,6 +147,8 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            hideProgressBar();
+
                             if (error.getClass().equals(NoConnectionError.class)) {
                             } else {
                                 UIUtils.showToast(mContext, getResources().getString(R.string.VolleyErrorMsg));
@@ -154,14 +161,18 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
                     params.put("userid", UserUtils.getInstance().getUserID(mContext));
                     return params;
                 }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
+                    return params;
+                }
             };
             mStrRequest.setShouldCache(false);
             mStrRequest.setTag("");
-            AppController.getInstance().
-
-                    addToRequestQueue(mStrRequest);
+            AppController.getInstance().addToRequestQueue(mStrRequest);
             mStrRequest.setRetryPolicy(new
-
                     DefaultRetryPolicy(
                     10000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -214,50 +225,59 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
 
 
     private void startHttpRequestForTotalCount() {
-        String baseUrl = Constant.API_TOTAL_COUNT;
-        StringRequest mStrRequest = new StringRequest(Request.Method.GET, baseUrl, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        boolean internetAvailable = Utils.isConnectingToInternet(mContext);
+        if (internetAvailable) {
+            showProgressBar();
+
+            String baseUrl = Constant.API_TOTAL_COUNT;
+            StringRequest mStrRequest = new StringRequest(Request.Method.GET, baseUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
 
 
-                try {
+                    try {
 
-                    Gson gson = new GsonBuilder().create();
-                    JsonParser jsonParser = new JsonParser();
-                    JsonObject jsonResp = jsonParser.parse(response).getAsJsonObject();
-                    TotalCount totalCount = gson.fromJson(jsonResp, TotalCount.class);
-                    if (totalCount != null && totalCount.getmStatus() == 200) {
+                        Gson gson = new GsonBuilder().create();
+                        JsonParser jsonParser = new JsonParser();
+                        JsonObject jsonResp = jsonParser.parse(response).getAsJsonObject();
+                        TotalCount totalCount = gson.fromJson(jsonResp, TotalCount.class);
+                        if (totalCount != null && totalCount.getmStatus() == 200) {
+                            hideProgressBar();
+                            setAllCountValues(totalCount);
 
-                        setAllCountValues(totalCount);
-
-                    } else {
-                        System.out.println(" error");
-                    }
-                } catch (Exception e) {
-                    System.out.println("e = " + e);
-                }
-            }
-        },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error instanceof NetworkError) {
-
+                        } else {
+                            hideProgressBar();
+                            System.out.println(" error");
                         }
+                    } catch (Exception e) {
+                        System.out.println("e = " + e);
                     }
-                });
-        mStrRequest.setShouldCache(false);
-        mStrRequest.setTag("");
-        AppController.getInstance().addToRequestQueue(mStrRequest);
-        mStrRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                }
+            },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (error instanceof NetworkError) {
+                                hideProgressBar();
 
+                            }
+                        }
+                    });
+            mStrRequest.setShouldCache(false);
+            mStrRequest.setTag("");
+            AppController.getInstance().addToRequestQueue(mStrRequest);
+            mStrRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    10000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void setAllCountValues(TotalCount totalCount) {
 
+        ll_top.setVisibility(View.VISIBLE);
 
         tv_total_material.setText(totalCount.getmTotalMaterials() + " " + " Total Material");
         tv_total_Users.setText(totalCount.getmTotalUsers() + " " + " Total users");

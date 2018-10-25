@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Consturction Buddy</string>
+    <string name="app_name">Construction Buddy</string>
 
 
     <string name="facebook_app_id">1963117790449634</string>
@@ -85,7 +85,6 @@
 
     <string name="PasswordOld">Please enter new password</string>
     <string name="PasswordNew">Please enter confirm password</string>
-
 
 
     <string-array name="elements_logut" />

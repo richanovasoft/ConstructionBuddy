@@ -6,9 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.consturctionbuddy.Bean.SiteImage.SiteImageBean;
+import com.consturctionbuddy.Interface.ISiteImageEditClickListner;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.custom.CustomRegularTextView;
 
@@ -19,11 +21,13 @@ public class SiteImageAdapter extends RecyclerView.Adapter<SiteImageAdapter.MyVi
 
     private ArrayList<SiteImageBean> mSiteImageList;
     private Context mContext;
+    private ISiteImageEditClickListner mISiteImageEditClickListner;
 
 
-    public SiteImageAdapter(Context aContext, ArrayList<SiteImageBean> aOrderlist) {
+    public SiteImageAdapter(Context aContext, ArrayList<SiteImageBean> aOrderlist, ISiteImageEditClickListner aISiteImageEditClickListner) {
         this.mContext = aContext;
         this.mSiteImageList = aOrderlist;
+        this.mISiteImageEditClickListner = aISiteImageEditClickListner;
 
     }
 
@@ -47,7 +51,7 @@ public class SiteImageAdapter extends RecyclerView.Adapter<SiteImageAdapter.MyVi
         holder.ll_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mISiteImageEditClickListner.iSiteImagEditClick(curBean);
             }
         });
 
@@ -61,7 +65,7 @@ public class SiteImageAdapter extends RecyclerView.Adapter<SiteImageAdapter.MyVi
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         CustomRegularTextView tv_service1;
-        private LinearLayout ll_edit;
+        private ImageView ll_edit;
 
 
         MyViewHolder(View itemView) {

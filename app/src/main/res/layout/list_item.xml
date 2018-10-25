@@ -10,7 +10,7 @@
         android:background="@color/colorWhite">
 
 
-        <TextView
+        <com.consturctionbuddy.custom.CustomBoldTextView
             android:id="@+id/itemTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,7 +19,7 @@
             android:layout_gravity="center_vertical"
             android:padding="5dp"
             android:text="@string/demoText"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
@@ -27,18 +27,17 @@
         android:id="@+id/ll_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="7dp"
+        android:background="@color/colorWhite"
         android:orientation="vertical"
         android:paddingLeft="@dimen/home_item_profile_info_padd">
 
         <com.consturctionbuddy.custom.CustomBoldTextView
             android:id="@+id/tv_image_date"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/demoText"
             android:textColor="@color/colorBlack"
-            android:textSize="@dimen/home_item_profile_name"
+            android:textSize="16sp"
             android:textStyle="bold|normal" />
 
         <com.consturctionbuddy.custom.CustomBoldTextView
@@ -77,6 +76,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorWhite"
         android:orientation="horizontal"
         android:padding="5dp" />
 

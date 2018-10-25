@@ -2,6 +2,7 @@ package com.consturctionbuddy.Fragment;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -116,7 +117,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                requestForUploadPanCardImage();
+                //requestForUploadPanCardImage();
             }
         });
 
@@ -525,13 +526,15 @@ public class ProfileFragment extends Fragment {
             if (resultCode == RESULT_OK) {
                 mStrUpdateProfileUrl = data.getData();
                 if (mStrUpdateProfileUrl != null) {
-                    CropImage.activity(data.getData())
-                            .start(getActivity());
+                   /* CropImage.activity(data.getData())
+                            .start((Activity) mContext);*/
+
+                   setImagePath(mStrUpdateProfileUrl);
                 }
             }
         }
 
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+        /*if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
 
@@ -540,14 +543,14 @@ public class ProfileFragment extends Fragment {
                     setImagePath(selectedImage);
 
                 } else {
-                    //UIUtils.showToast(mContext, "Something issue for uploading.");
+                    UIUtils.showToast(mContext, "Something issue for uploading.");
                 }
 
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
-                //UIUtils.showToast(mContext, "" + error);
+                UIUtils.showToast(mContext, "" + error);
             }
-        }
+        }*/
 
     }
 
@@ -601,10 +604,8 @@ public class ProfileFragment extends Fragment {
 
 
                         } else {
-                            if (responseBean != null) {
-                                hideProgressBar();
+                            hideProgressBar();
 
-                            }
                             civ_profile.setImageResource(R.drawable.ic_user_account);
 
                         }
@@ -619,15 +620,14 @@ public class ProfileFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    if (mIsRequestInProgress) {
-                        hideProgressBar();
-                        if (error.getClass().equals(NoConnectionError.class)) {
-                            UIUtils.showToast(mContext, getResources().getString(R.string.InternetErrorMsg));
-                        } else {
-                            UIUtils.showToast(mContext, getResources().getString(R.string.ErrorMsg));
-                        }
+                    hideProgressBar();
+                    if (error.getClass().equals(NoConnectionError.class)) {
+                        UIUtils.showToast(mContext, getResources().getString(R.string.InternetErrorMsg));
+                    } else {
+                        UIUtils.showToast(mContext, getResources().getString(R.string.ErrorMsg));
                     }
                 }
+
             }) {
 
                 @Override
@@ -650,7 +650,7 @@ public class ProfileFragment extends Fragment {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
-                    params.put("userid", "" + UserUtils.getInstance().getUserID(mContext));
+                    params.put("userid", UserUtils.getInstance().getUserID(mContext));
                     return params;
                 }
             };
@@ -692,7 +692,7 @@ public class ProfileFragment extends Fragment {
 
         boolean internetAvailable = Utils.isConnectingToInternet(mContext);
         if (internetAvailable) {
-            String baseUrl = Constant.API_PAN_CARD_IMAGE + "?userid=" + UserUtils.getInstance().getUserID(mContext);
+            String baseUrl = Constant.API_PAN_CARD_IMAGE;
             showProgressBar();
             VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST,
                     baseUrl, new Response.Listener<NetworkResponse>() {
@@ -755,13 +755,13 @@ public class ProfileFragment extends Fragment {
                     return params;
                 }
 
-
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
                     params.put("userid", "" + UserUtils.getInstance().getUserID(mContext));
                     return params;
                 }
+
             };
 
             multipartRequest.setShouldCache(false);

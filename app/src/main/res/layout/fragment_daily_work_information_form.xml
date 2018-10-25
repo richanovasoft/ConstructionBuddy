@@ -44,7 +44,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Today Working Subject"
-                        android:inputType="number"
+                        android:inputType="text"
                         android:textCursorDrawable="@null"
                         android:textSize="16sp" />
                 </android.support.design.widget.TextInputLayout>
@@ -80,7 +80,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Date "
-                        android:inputType="number"
+                        android:inputType="date"
                         android:textCursorDrawable="@null"
                         android:textSize="16sp" />
                 </android.support.design.widget.TextInputLayout>

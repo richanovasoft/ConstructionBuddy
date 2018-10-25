@@ -18,13 +18,13 @@ import java.util.ArrayList;
 public class SpinnerAdapter extends ArrayAdapter {
 
     private Context mContext;
-    private ArrayList<Projectlist> mData;
+    private ArrayList<String> mData;
     private int mTextColor;
 
-    public SpinnerAdapter(@NonNull Context aContext, @LayoutRes int resource, @NonNull ArrayList<Projectlist> aObjects) {
-        super(aContext, resource, aObjects);
+    public SpinnerAdapter(@NonNull Context aContext, @LayoutRes int resource, @NonNull ArrayList<String> aProjectList) {
+        super(aContext, resource, aProjectList);
         this.mContext = aContext;
-        this.mData = aObjects;
+        this.mData = aProjectList;
     }
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {
@@ -35,11 +35,10 @@ public class SpinnerAdapter extends ArrayAdapter {
         View bottomDivider = layout.findViewById(R.id.v_spinner_bottom);
         TextView tvText = layout.findViewById(R.id.tv_item);
 
-        Projectlist projectlist = mData.get(position);
-        tvText.setText(projectlist.getProjectName());
+        tvText.setText(mData.get(position));
 
         if (position == 0) {
-            topDivider.setVisibility(View.VISIBLE);
+            topDivider.setVisibility(View.GONE);
         }
 
         if (position == mData.size() - 1) {

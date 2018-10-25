@@ -122,12 +122,11 @@ public class ApplyLeavesActivity extends AppCompatActivity {
 
 
         mSelectedDOBCalendar = Calendar.getInstance();
-       /* mSelectedDOBCalendar.set(Calendar.DAY_OF_MONTH, 1);
+        mSelectedDOBCalendar.set(Calendar.DAY_OF_MONTH, 1);
         mSelectedDOBCalendar.set(Calendar.MONTH, Calendar.JANUARY);
         mSelectedDOBCalendar.set(Calendar.YEAR, 1990);
         String dateStr = DateUtils.getDateStr(mSelectedDOBCalendar, DateUtils.DATE_WITHOUT_TIME_SERVER_FORMAT);
         et_prefer_date.setText(dateStr);
-*/
 
         et_prefer_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,7 +155,7 @@ public class ApplyLeavesActivity extends AppCompatActivity {
             }
         });
 
-      /*  et_prefer_time.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_prefer_time.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -165,7 +164,7 @@ public class ApplyLeavesActivity extends AppCompatActivity {
                 }
             }
         });
-*/
+
     }
 
     private void setValidation() {
@@ -225,9 +224,17 @@ public class ApplyLeavesActivity extends AppCompatActivity {
                 public Map<String, String> getParams() throws AuthFailureError {
                     HashMap<String, String> params = new HashMap<>();
                     params.put("userId", UserUtils.getInstance().getUserID(mContext));
-                    params.put("reasonleave ", et_problem_description.getText().toString());
+                    params.put("reasonleave", et_problem_description.getText().toString());
                     params.put("start_date", et_prefer_date.getText().toString());
-                    params.put("end_date ", et_prefer_time.getText().toString());
+                    params.put("end_date", et_prefer_time.getText().toString());
+                    return params;
+                }
+
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("Content-Type", "application/x-www-form-urlencoded");
                     return params;
                 }
             };
@@ -340,7 +347,7 @@ public class ApplyLeavesActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            int color = ContextCompat.getColor(this, R.color.colorPrimary);
+            int color = ContextCompat.getColor(this, R.color.colorBlack);
             window.setStatusBarColor(color);
         }
     }

@@ -23,7 +23,7 @@
     <dimen name="PostImagePIcWidth">65dp</dimen>
     <dimen name="PostImagePIcHeight">65dp</dimen>
     <dimen name="MultipleImgWidth">100dp</dimen>
-    <dimen name="MultipleImgHeight">150dp</dimen>
+    <dimen name="MultipleImgHeight">100dp</dimen>
 
 
 
