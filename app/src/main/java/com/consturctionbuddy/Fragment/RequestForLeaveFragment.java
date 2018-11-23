@@ -137,8 +137,6 @@ public class RequestForLeaveFragment extends Fragment {
                                 mRecyclerView.setVisibility(View.GONE);
 
                             }
-
-
                         }
                     },
                     new Response.ErrorListener() {

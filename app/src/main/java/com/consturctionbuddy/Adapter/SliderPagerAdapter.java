@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.consturctionbuddy.Bean.TimeLine.ProjectImg;
 import com.consturctionbuddy.Bean.TimeLineImage;
 import com.consturctionbuddy.Fragment.SliderFragment;
 
@@ -13,9 +14,9 @@ import java.util.ArrayList;
 
 
 public class SliderPagerAdapter extends FragmentPagerAdapter {
-    private ArrayList<TimeLineImage> mUrlList;
+    private ArrayList<ProjectImg> mUrlList;
 
-    public SliderPagerAdapter(ArrayList<TimeLineImage> arrayList, FragmentManager fm) {
+    public SliderPagerAdapter(ArrayList<ProjectImg> arrayList, FragmentManager fm) {
         super(fm);
         mUrlList = arrayList;
     }
@@ -23,9 +24,9 @@ public class SliderPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Fragment f = new SliderFragment();
-        TimeLineImage url = mUrlList.get(position);
+        ProjectImg url = mUrlList.get(position);
         Bundle b = new Bundle();
-        b.putString("fullImageUrl", url.getMsTrImageUrl());
+        b.putString("fullImageUrl", url.getPath());
         f.setArguments(b);
 
         return f;

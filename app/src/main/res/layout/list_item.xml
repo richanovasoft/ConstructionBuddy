@@ -1,84 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite">
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:orientation="horizontal">
 
 
-        <com.consturctionbuddy.custom.CustomBoldTextView
-            android:id="@+id/itemTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:padding="5dp"
-            android:text="@string/demoText"
-            android:textSize="16sp" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/ll_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/home_item_profile_info_padd">
-
-        <com.consturctionbuddy.custom.CustomBoldTextView
-            android:id="@+id/tv_image_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/demoText"
-            android:textColor="@color/colorBlack"
-            android:textSize="16sp"
-            android:textStyle="bold|normal" />
-
-        <com.consturctionbuddy.custom.CustomBoldTextView
-            android:id="@+id/tv_image_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_image_date"
-            android:text="@string/demoText"
-            android:textColor="@color/orange"
-            android:textSize="14sp" />
-
-        <com.consturctionbuddy.custom.CustomRegularTextView
-            android:id="@+id/tv_image_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_image_title"
-            android:maxLines="4"
-            android:text="@string/demoText"
-            android:textSize="14sp" />
-
-        <com.consturctionbuddy.custom.CustomRegularTextView
-            android:id="@+id/tv_read_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/tv_image_desc"
-            android:text="Read more..."
-            android:textColor="@color/colorPrimary"
-            android:textSize="12sp"
-            android:visibility="gone" />
-    </RelativeLayout>
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view_list"
-        android:layout_width="match_parent"
+    <com.github.vipulasri.timelineview.TimelineView
+        android:id="@+id/time_marker"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="5dp"
-        android:background="@color/colorWhite"
-        android:orientation="horizontal"
-        android:padding="5dp" />
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        app:line="@color/colorPrimary"
+        app:linePadding="1dp"
+        app:lineSize="3dp"
+        app:markerSize="20dp" />
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        app:cardElevation="1dp"
+        app:contentPadding="15dp">
+
+        <LinearLayout
+            android:id="@+id/ll_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/home_item_profile_info_padd">
+
+            <com.consturctionbuddy.custom.CustomBoldTextView
+                android:id="@+id/tv_image_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/demoText"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                android:textStyle="bold|normal" />
+
+            <com.consturctionbuddy.custom.CustomBoldTextView
+                android:id="@+id/tv_image_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/demoText"
+                android:textColor="@color/orange"
+                android:textSize="14sp" />
+
+            <com.consturctionbuddy.custom.CustomRegularTextView
+                android:id="@+id/tv_image_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="4"
+                android:text="@string/demoText"
+                android:textSize="14sp" />
+
+            <com.consturctionbuddy.custom.CustomRegularTextView
+                android:id="@+id/tv_read_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="Read more..."
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 </LinearLayout>

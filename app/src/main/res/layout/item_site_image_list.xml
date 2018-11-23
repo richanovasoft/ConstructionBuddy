@@ -84,7 +84,8 @@
                         android:layout_height="18dp"
                         android:layout_gravity="end"
                         android:gravity="end"
-                        android:src="@android:drawable/ic_menu_edit" />
+                        android:src="@android:drawable/ic_menu_edit"
+                        android:visibility="gone" />
                 </LinearLayout>
 
 

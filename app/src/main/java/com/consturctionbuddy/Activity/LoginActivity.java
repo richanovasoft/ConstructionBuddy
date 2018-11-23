@@ -530,7 +530,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         } else {
             UIUtils.showToast(mContext, getString(R.string.InternetErrorMsg));
         }
-
     }
 
 

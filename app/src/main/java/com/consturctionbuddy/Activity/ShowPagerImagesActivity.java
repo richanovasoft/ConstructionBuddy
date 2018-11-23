@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.consturctionbuddy.Adapter.SliderPagerAdapter;
 import com.consturctionbuddy.Bean.SectionDataModel;
+import com.consturctionbuddy.Bean.TimeLine.ProjectImg;
 import com.consturctionbuddy.Bean.TimeLineImage;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.Utility.Constant;
@@ -32,8 +33,10 @@ public class ShowPagerImagesActivity extends AppCompatActivity {
     private ArrayList<ImageView> mDotImageViewList;
     private int mSelectedIndex;
     private Context mContext;
-    private ArrayList<TimeLineImage> mPostImageList;
-    SectionDataModel sectionDataModel;
+
+
+    ArrayList<ProjectImg> postlist;
+    //SectionDataModel sectionDataModel;
 
 
     @Override
@@ -63,15 +66,12 @@ public class ShowPagerImagesActivity extends AppCompatActivity {
 
         mSelectedIndex = 0;
         mDotImageViewList = new ArrayList<>();
-        mPostImageList = new ArrayList<>();
+        postlist = new ArrayList<>();
 
 
         if (getIntent() != null) {
 
-            sectionDataModel = getIntent().getParcelableExtra(Constant.INTENT_IMAGE_LIST_INDEX_KEY);
-            System.out.println("mPostImageList = " + mPostImageList);
-
-            mPostImageList = sectionDataModel.getAllItemsInSection();
+            postlist = getIntent().getParcelableArrayListExtra(Constant.INTENT_IMAGE_LIST_INDEX_KEY);
 
             mSelectedIndex = 0;
         }
@@ -79,7 +79,7 @@ public class ShowPagerImagesActivity extends AppCompatActivity {
 
         setUpView();
 
-        if (mPostImageList.size() > 1) {
+        if (postlist.size() > 1) {
             setDot();
             setSelectedDots(mSelectedIndex);
 
@@ -91,7 +91,7 @@ public class ShowPagerImagesActivity extends AppCompatActivity {
 
     private void setDot() {
 
-        for (int i = 0; i < mPostImageList.size(); i++) {
+        for (int i = 0; i < postlist.size(); i++) {
             ImageView currentImageview = new ImageView(this);
             LinearLayout.LayoutParams vp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
             vp.rightMargin = 5;
@@ -116,7 +116,7 @@ public class ShowPagerImagesActivity extends AppCompatActivity {
 
 
     private void setUpView() {
-        mSliderPagerAdapter = new SliderPagerAdapter(mPostImageList, getSupportFragmentManager());
+        mSliderPagerAdapter = new SliderPagerAdapter(postlist, getSupportFragmentManager());
         mViewPager.setAdapter(mSliderPagerAdapter);
         mViewPager.setCurrentItem(mSelectedIndex);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

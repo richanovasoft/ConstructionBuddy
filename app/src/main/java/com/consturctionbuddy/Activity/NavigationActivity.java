@@ -128,8 +128,8 @@ public class NavigationActivity extends AppCompatActivity
                 break;
 
             case R.id.nav_change_pass:
-                Intent intent2 = new Intent(NavigationActivity.this, ChangePasswordActivity.class);
-                startActivity(intent2);
+                fragment = new ChangePasswordActivity();
+
                 break;
 
             case R.id.nav_logout:

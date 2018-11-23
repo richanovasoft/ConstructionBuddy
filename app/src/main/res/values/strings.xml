@@ -84,6 +84,7 @@
     <string name="SendText">Send</string>
 
     <string name="PasswordOld">Please enter new password</string>
+    <string name="PasswordOld1">Please enter old password</string>
     <string name="PasswordNew">Please enter confirm password</string>
 
 

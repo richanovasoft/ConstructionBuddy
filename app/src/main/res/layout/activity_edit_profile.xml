@@ -160,7 +160,7 @@
                             android:layout_height="80dp"
                             android:layout_gravity="center"
                             android:src="@drawable/placeholder"
-                            android:visibility="gone" />
+                            android:visibility="visible" />
 
                         <com.consturctionbuddy.custom.CustomBoldTextView
                             android:id="@+id/tv_pan"

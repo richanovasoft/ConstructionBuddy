@@ -19,7 +19,9 @@ public class Constant {
     public static final String INTENT_IMAGE_LIST_INDEX_KEY = "image_list";
     public static final int MY_PERMISSIONS_REQUEST_FOR_EXTERNAL_STORAGE = 2000;
     public static final int GALLERY_CAPTURE_IMAGE_REQUEST_CODE = 12452;
+    public static final int GALLERY_CAPTURE_IMAGE_REQUEST_CODE_FOR_PAN_CARD = 1242;
     public static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 1337;
+    public static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE_FORpAN_CARD = 1333;
     public static final int MAX_UPLOAD_FILE_SIZE = 5;
 
 

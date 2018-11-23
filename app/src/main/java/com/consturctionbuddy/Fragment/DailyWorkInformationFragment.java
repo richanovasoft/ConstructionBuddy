@@ -284,7 +284,6 @@ public class DailyWorkInformationFragment extends Fragment implements IMultipleI
             }
         });
 
-
     }
 
 

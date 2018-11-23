@@ -6,10 +6,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
@@ -41,8 +44,7 @@ import com.google.gson.JsonParser;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChangePasswordActivity extends AppCompatActivity {
-
+public class ChangePasswordActivity extends Fragment {
 
     private static final Object TAG = LoginActivity.class.getSimpleName();
     private Context mContext;
@@ -54,43 +56,29 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private RelativeLayout mProgressBarLayout;
     private User userUtils;
 
+    private View mMainView;
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reset_password);
-        ChangePasswordActivity.this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mContext = getActivity();
+        mMainView = inflater.inflate(R.layout.activity_reset_password, container, false);
 
-        mContext = this;
-        changeStatusBarColor();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_setting);
-
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            getSupportActionBar().setTitle("Change Password");
-        }
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         init();
-
+        return mMainView;
     }
+
 
     private void init() {
 
+        ((NavigationActivity) mContext).setTitle("Change Password");
 
-        mProgressBarLayout = findViewById(R.id.rl_progressBar);
-        RelativeLayout mLLLogin = findViewById(R.id.ll_submit);
-        mEtLoginNewPassword = findViewById(R.id.et_change_pass);
-        mEtLoginPassword = findViewById(R.id.et_current_pass);
+        mProgressBarLayout = mMainView.findViewById(R.id.rl_progressBar);
+        RelativeLayout mLLLogin = mMainView.findViewById(R.id.ll_submit);
+        mEtLoginNewPassword = mMainView.findViewById(R.id.et_change_pass);
+        mEtLoginPassword = mMainView.findViewById(R.id.et_current_pass);
 
         userUtils = UserUtils.getInstance().getUserInfo(mContext);
       /*   if (userUtils != null) {
@@ -109,9 +97,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     private void setValidation() {
-        UIUtils.hideKeyBoard(this);
-        if (ValidatorUtils.NotEmptyValidator(mContext, mEtLoginPassword, true, getString(R.string.PasswordOld))
-                && ValidatorUtils.NotEmptyValidator(mContext, mEtLoginNewPassword, true, getString(R.string.PasswordNew))
+        UIUtils.hideKeyBoard(getActivity());
+        if (ValidatorUtils.NotEmptyValidator(mContext, mEtLoginPassword, true, getString(R.string.PasswordOld1))
+                && ValidatorUtils.NotEmptyValidator(mContext, mEtLoginNewPassword, true, getString(R.string.PasswordOld))
                 && ValidatorUtils.MinimumLengthValidator(mContext, mEtLoginNewPassword, Constant.MIN_PASSWORD_LENGTH, true,
                 getString(R.string.RegisterPasswordMinimumLength))) {
 
@@ -290,22 +278,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
                             Intent intent = new Intent(mContext, NavigationActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
-                            finish();
+
                         }
                     })
                     .setIcon(R.mipmap.ic_launcher)
                     .show();
 
-        }
-    }
-
-
-    private void changeStatusBarColor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            int color = ContextCompat.getColor(this, R.color.colorPrimaryDark);
-            window.setStatusBarColor(color);
         }
     }
 

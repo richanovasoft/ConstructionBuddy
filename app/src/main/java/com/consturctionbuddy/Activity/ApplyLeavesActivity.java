@@ -127,7 +127,7 @@ public class ApplyLeavesActivity extends AppCompatActivity {
         mSelectedDOBCalendar.set(Calendar.YEAR, 1990);
         String dateStr = DateUtils.getDateStr(mSelectedDOBCalendar, DateUtils.DATE_WITHOUT_TIME_SERVER_FORMAT);
         et_prefer_date.setText(dateStr);
-
+        et_prefer_time.setText(dateStr);
         et_prefer_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,7 +155,7 @@ public class ApplyLeavesActivity extends AppCompatActivity {
             }
         });
 
-        et_prefer_time.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+       /* et_prefer_time.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -163,7 +163,7 @@ public class ApplyLeavesActivity extends AppCompatActivity {
                     et_prefer_time.clearFocus();
                 }
             }
-        });
+        });*/
 
     }
 
@@ -223,7 +223,7 @@ public class ApplyLeavesActivity extends AppCompatActivity {
                 @Override
                 public Map<String, String> getParams() throws AuthFailureError {
                     HashMap<String, String> params = new HashMap<>();
-                    params.put("userId", UserUtils.getInstance().getUserID(mContext));
+                    params.put("userid", UserUtils.getInstance().getUserID(mContext));
                     params.put("reasonleave", et_problem_description.getText().toString());
                     params.put("start_date", et_prefer_date.getText().toString());
                     params.put("end_date", et_prefer_time.getText().toString());

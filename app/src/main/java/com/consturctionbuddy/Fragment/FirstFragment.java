@@ -3,7 +3,6 @@ package com.consturctionbuddy.Fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,18 +22,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.consturctionbuddy.Activity.NavigationActivity;
-import com.consturctionbuddy.Activity.ShowPagerImagesActivity;
-import com.consturctionbuddy.Activity.TotalStaffActivity;
 import com.consturctionbuddy.Adapter.HomeDataAdapter;
-import com.consturctionbuddy.Bean.LeavesBean;
-import com.consturctionbuddy.Bean.SectionDataModel;
 import com.consturctionbuddy.Bean.TimeLine.Datum;
-import com.consturctionbuddy.Bean.TimeLine.ProjectImg;
 import com.consturctionbuddy.Bean.TimeLine.TimeLineBean;
-import com.consturctionbuddy.Bean.TimeLineImage;
 import com.consturctionbuddy.Bean.UserResponse.TotalCount;
-import com.consturctionbuddy.Bean.UserResponse.UserInfo;
-import com.consturctionbuddy.Interface.IMultipleImageClickCallback;
 import com.consturctionbuddy.R;
 import com.consturctionbuddy.Utility.AppController;
 import com.consturctionbuddy.Utility.Constant;
@@ -46,15 +37,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class FirstFragment extends Fragment implements IMultipleImageClickCallback {
+public class FirstFragment extends Fragment {
 
 
     private Context mContext;
@@ -188,39 +176,10 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
         if (mTimeLineImageList.size() > 0) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
             mTimeList.setLayoutManager(layoutManager);
-            HomeDataAdapter mProductImageAdapter = new HomeDataAdapter(mContext, mTimeLineImageList, this);
+            HomeDataAdapter mProductImageAdapter = new HomeDataAdapter(mContext, mTimeLineImageList);
             mTimeList.setAdapter(mProductImageAdapter);
             mTimeList.setNestedScrollingEnabled(false);
         }
-    }
-
-
- /*   public void createDummyData() {
-        for (int i = 1; i <= 2; i++) {
-
-            dm = new SectionDataModel();
-
-            dm.setHeaderTitle("21/9/18");
-
-            ArrayList<TimeLineImage> singleItem = new ArrayList<TimeLineImage>();
-            for (int j = 0; j <= 5; j++) {
-                singleItem.add(new TimeLineImage("https://cdn2.vectorstock.com/i/1000x1000/49/71/crane-poured-concrete-construction-vector-7324971.jpg", "Testing", "21/9/2018", "\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout" + j));
-            }
-
-            dm.setAllItemsInSection(singleItem);
-
-            mTimeLineImageList.add(dm);
-
-        }
-    }*/
-
-
-    private void showOverFlowImages(int aIndex, ProjectImg aTimeLineImage) {
-        Intent intent = new Intent(mContext, ShowPagerImagesActivity.class);
-        intent.putExtra(Constant.INTENT_IMAGE_SELECTED_INDEX_KEY, aIndex);
-        intent.putExtra(Constant.INTENT_IMAGE_LIST_INDEX_KEY, aTimeLineImage);
-        //intent.putParcelableArrayListExtra(Constant.INTENT_IMAGE_LIST_INDEX_KEY, aTimeLineImage);
-        startActivity(intent);
     }
 
 
@@ -303,15 +262,6 @@ public class FirstFragment extends Fragment implements IMultipleImageClickCallba
         }
     }
 
-    @Override
-    public void itemClicked(int aIndex, ProjectImg aTimeLineImage) {
-        showOverFlowImages(aIndex, aTimeLineImage);
-    }
-
-    @Override
-    public void itemOverFlow(int aIndex, ProjectImg aTimeLineImage) {
-        showOverFlowImages(aIndex, aTimeLineImage);
-    }
 }
 
 

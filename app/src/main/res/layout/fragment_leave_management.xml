@@ -1,73 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
 
-    <RelativeLayout
+    <com.alamkanak.weekview.WeekView
+        android:id="@+id/weekView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        app:columnGap="8dp"
+        app:dayBackgroundColor="#05000000"
+        app:eventTextColor="@android:color/white"
+        app:headerColumnBackground="#ffffffff"
+        app:headerColumnPadding="8dp"
+        app:headerColumnTextColor="@color/toolbar_text"
+        app:headerRowBackgroundColor="@color/toolbar"
+        app:headerRowPadding="12dp"
+        app:hourHeight="60dp"
+        app:noOfVisibleDays="3"
+        app:textSize="12sp"
+        app:todayBackgroundColor="#1848adff"
+        app:todayHeaderTextColor="@color/accent" />
+    <!-- <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_margin="4dp"
+         android:orientation="vertical">
 
 
-        <RelativeLayout
-            android:id="@+id/header"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/calendar_top">
+         <RelativeLayout
+             android:id="@+id/header"
+             android:layout_width="fill_parent"
+             android:layout_height="wrap_content"
+             android:background="@drawable/calendar_top">
 
-            <RelativeLayout
-                android:id="@+id/previous"
-                android:layout_width="40dip"
-                android:layout_height="30dip"
-                android:layout_alignParentLeft="true">
+             <RelativeLayout
+                 android:id="@+id/previous"
+                 android:layout_width="40dip"
+                 android:layout_height="30dip"
+                 android:layout_alignParentLeft="true">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/arrow_left" />
-            </RelativeLayout>
+                 <ImageView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_centerInParent="true"
+                     android:background="@drawable/arrow_left" />
+             </RelativeLayout>
 
-            <com.consturctionbuddy.custom.CustomRegularTextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dip"
-                android:textColor="#000000"
-                android:textSize="18dip"
-                android:textStyle="bold" />
+             <com.consturctionbuddy.custom.CustomRegularTextView
+                 android:id="@+id/title"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_centerHorizontal="true"
+                 android:layout_marginTop="5dip"
+                 android:textColor="#000000"
+                 android:textSize="18dip"
+                 android:textStyle="bold" />
 
-            <RelativeLayout
-                android:id="@+id/next"
-                android:layout_width="40dip"
-                android:layout_height="30dip"
-                android:layout_alignParentRight="true">
+             <RelativeLayout
+                 android:id="@+id/next"
+                 android:layout_width="40dip"
+                 android:layout_height="30dip"
+                 android:layout_alignParentRight="true">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/arrow_right" />
-            </RelativeLayout>
-        </RelativeLayout>
+                 <ImageView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_centerInParent="true"
+                     android:background="@drawable/arrow_right" />
+             </RelativeLayout>
+         </RelativeLayout>
 
-        <GridView
-            android:id="@+id/gridview"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_below="@+id/header"
-            android:layout_gravity="center_horizontal"
-            android:listSelector="@android:color/transparent"
-            android:numColumns="7"
-            android:stretchMode="columnWidth" />
+         <GridView
+             android:id="@+id/gridview"
+             android:layout_width="match_parent"
+             android:layout_height="300dp"
+             android:layout_below="@+id/header"
+             android:layout_gravity="center_horizontal"
+             android:listSelector="@android:color/transparent"
+             android:numColumns="7"
+             android:stretchMode="columnWidth" />
 
 
-    </RelativeLayout>
+     </RelativeLayout>
 
+
+     <include
+         android:id="@+id/rl_progressBar"
+         layout="@layout/progress_bar_layout"
+         android:visibility="gone" />-->
 
     <include
         android:id="@+id/rl_progressBar"

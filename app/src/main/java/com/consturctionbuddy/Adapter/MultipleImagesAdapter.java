@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.consturctionbuddy.Bean.TimeLine.Datum;
 import com.consturctionbuddy.Bean.TimeLine.ProjectImg;
 import com.consturctionbuddy.Interface.IMultipleImageClickCallback;
 import com.consturctionbuddy.R;
@@ -25,17 +26,21 @@ public class MultipleImagesAdapter extends RecyclerView.Adapter<MultipleImagesAd
     private int mAdapterSize;
     private int mSelectedIndex;
 
+    private Datum mAllItemsInSection;
+
     private IMultipleImageClickCallback mIMultipleImageClickCallback;
 
-    public MultipleImagesAdapter(Context aContext, ArrayList<ProjectImg> aMultipleImgList, IMultipleImageClickCallback aIMultipleImageClickCallback) {
+
+    public MultipleImagesAdapter(Context aContext, ArrayList<ProjectImg> projectImg, Datum allItemsInSection, int aPosition, IMultipleImageClickCallback aIMultipleImageClickCallback) {
         this.mContext = aContext;
-        this.mMultipleImgList = aMultipleImgList;
+        this.mMultipleImgList = projectImg;
         this.mIMultipleImageClickCallback = aIMultipleImageClickCallback;
-        mSelectedIndex = 0;
+        this.mAllItemsInSection = allItemsInSection;
+        mSelectedIndex = aPosition;
         if (mMultipleImgList.size() > Constant.MAX_PRODUCT_IMAGE_DISPLAY) {
             mAdapterSize = Constant.MAX_PRODUCT_IMAGE_DISPLAY;
         } else {
-            mAdapterSize = aMultipleImgList.size();
+            mAdapterSize = projectImg.size();
         }
 
     }
@@ -77,15 +82,15 @@ public class MultipleImagesAdapter extends RecyclerView.Adapter<MultipleImagesAd
             public void onClick(View v) {
                 if (position == Constant.MAX_PRODUCT_IMAGE_DISPLAY - 1) {
                     if (mMultipleImgList.size() > Constant.MAX_PRODUCT_IMAGE_DISPLAY) {
-                        mIMultipleImageClickCallback.itemOverFlow(position, timeLineImage);
+                        mIMultipleImageClickCallback.itemOverFlow(mSelectedIndex, mAllItemsInSection);
                     } else {
-                        mIMultipleImageClickCallback.itemClicked(position, timeLineImage);
-                        mSelectedIndex = position;
+                        mIMultipleImageClickCallback.itemClicked(mSelectedIndex, mAllItemsInSection);
+                        //mSelectedIndex = position;
                         notifyDataSetChanged();
                     }
                 } else {
-                    mIMultipleImageClickCallback.itemClicked(position, timeLineImage);
-                    mSelectedIndex = position;
+                    mIMultipleImageClickCallback.itemClicked(mSelectedIndex, mAllItemsInSection);
+                    //mSelectedIndex = position;
                     notifyDataSetChanged();
                 }
             }

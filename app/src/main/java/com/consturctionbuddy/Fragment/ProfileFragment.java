@@ -118,6 +118,8 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
 
                 //requestForUploadPanCardImage();
+
+                selectImagePopUpForPancard();
             }
         });
 
@@ -476,6 +478,57 @@ public class ProfileFragment extends Fragment {
         sheetDialog.show();
     }
 
+
+    private void selectImagePopUpForPancard() {
+
+
+        View view = getLayoutInflater().inflate(R.layout.custom_profile_dialog, null);
+        final BottomSheetDialog sheetDialog = new BottomSheetDialog(mContext);
+        sheetDialog.setContentView(view);
+
+        CustomRegularTextView tv_remove = view.findViewById(R.id.tv_remove);
+        CustomRegularTextView tv_camera = view.findViewById(R.id.tv_camera);
+        CustomRegularTextView tv_gallery = view.findViewById(R.id.tv_gallery);
+        RelativeLayout rl_list_bootom = view.findViewById(R.id.rl_list_bootom);
+
+        rl_list_bootom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sheetDialog.dismiss();
+            }
+        });
+
+        tv_remove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sheetDialog.dismiss();
+
+            }
+        });
+
+        tv_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initCameraPermissionForPanCard();
+                sheetDialog.dismiss();
+
+            }
+        });
+
+
+        tv_gallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initGalleryIntentForPanCard();
+                sheetDialog.dismiss();
+
+            }
+        });
+
+        sheetDialog.show();
+    }
+
+
     @TargetApi(Build.VERSION_CODES.M)
     private void initCameraPermission() {
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA)
@@ -489,10 +542,28 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
+    private void initCameraPermissionForPanCard() {
+        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                Toast.makeText(mContext, "Permission to use Camera", Toast.LENGTH_SHORT).show();
+            }
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, Constant.CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+        } else {
+            captureImageForPanCard();
+        }
+    }
+
     private void captureImage() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, Constant.CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+    }
 
+
+    private void captureImageForPanCard() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, Constant.CAMERA_CAPTURE_IMAGE_REQUEST_CODE_FORpAN_CARD);
     }
 
     private void initGalleryIntent() {
@@ -500,6 +571,13 @@ public class ProfileFragment extends Fragment {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"), Constant.GALLERY_CAPTURE_IMAGE_REQUEST_CODE);
+    }
+
+    private void initGalleryIntentForPanCard() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);//
+        startActivityForResult(Intent.createChooser(intent, "Select File"), Constant.GALLERY_CAPTURE_IMAGE_REQUEST_CODE_FOR_PAN_CARD);
     }
 
     @Override
@@ -522,6 +600,23 @@ public class ProfileFragment extends Fragment {
         }
 
 
+        if (requestCode == Constant.CAMERA_CAPTURE_IMAGE_REQUEST_CODE_FORpAN_CARD) {
+
+            if (resultCode == RESULT_OK) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                if (imageBitmap != null) {
+                    Uri tempUri = getImageUri(mContext, imageBitmap);
+                    setImagePathForPanCard(tempUri);
+
+                } else {
+                    System.out.println("error = " + requestCode);
+                }
+
+            }
+        }
+
+
         if (requestCode == Constant.GALLERY_CAPTURE_IMAGE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 mStrUpdateProfileUrl = data.getData();
@@ -529,28 +624,24 @@ public class ProfileFragment extends Fragment {
                    /* CropImage.activity(data.getData())
                             .start((Activity) mContext);*/
 
-                   setImagePath(mStrUpdateProfileUrl);
+                    setImagePath(mStrUpdateProfileUrl);
                 }
             }
         }
 
-        /*if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+        if (requestCode == Constant.GALLERY_CAPTURE_IMAGE_REQUEST_CODE_FOR_PAN_CARD) {
             if (resultCode == RESULT_OK) {
+                mStrUpdateProfileUrl = data.getData();
+                if (mStrUpdateProfileUrl != null) {
+                   /* CropImage.activity(data.getData())
+                            .start((Activity) mContext);*/
 
-                Uri selectedImage = result.getUri();
-                if (selectedImage != null) {
-                    setImagePath(selectedImage);
-
-                } else {
-                    UIUtils.showToast(mContext, "Something issue for uploading.");
+                    setImagePathForPanCard(mStrUpdateProfileUrl);
                 }
-
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-                UIUtils.showToast(mContext, "" + error);
             }
-        }*/
+        }
+
 
     }
 
@@ -581,11 +672,31 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    public void setImagePathForPanCard(Uri tempUri) {
+        mStrUpdateProfileUrl = tempUri;
+        mSelectedFilePath = FilePath.getPath(mContext, mStrUpdateProfileUrl);
+        if (mSelectedFilePath != null && mStrUpdateProfileUrl.getPath() != null && !mStrUpdateProfileUrl.getPath().equals("")) {
+            try {
+                Bitmap mProfileBitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), mStrUpdateProfileUrl);
+                mProfileBitmap = ImageUtils.getScaledImage(mStrUpdateProfileUrl, mContext);
+                if (mProfileBitmap != null) {
+                    requestForUploadPanCardImage();
+
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                // UIUtils.showToast(mContext, getString(R.string.LoadFailedMsg));
+            }
+        }
+    }
+
     private void requestForUploadImage() {
 
         boolean internetAvailable = Utils.isConnectingToInternet(mContext);
         if (internetAvailable) {
-            String baseUrl = Constant.API_UPDATE_IMAGE;
+            String baseUrl = Constant.API_UPDATE_IMAGE + "?userid=" + UserUtils.getInstance().getUserID(mContext);
             showProgressBar();
             VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST,
                     baseUrl, new Response.Listener<NetworkResponse>() {
@@ -647,12 +758,12 @@ public class ProfileFragment extends Fragment {
                     return params;
                 }
 
-                @Override
+               /* @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
                     params.put("userid", UserUtils.getInstance().getUserID(mContext));
                     return params;
-                }
+                }*/
             };
 
             multipartRequest.setShouldCache(false);
@@ -692,7 +803,7 @@ public class ProfileFragment extends Fragment {
 
         boolean internetAvailable = Utils.isConnectingToInternet(mContext);
         if (internetAvailable) {
-            String baseUrl = Constant.API_PAN_CARD_IMAGE;
+            String baseUrl = Constant.API_PAN_CARD_IMAGE + "?userid=" + UserUtils.getInstance().getUserID(mContext);
             showProgressBar();
             VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST,
                     baseUrl, new Response.Listener<NetworkResponse>() {
@@ -742,7 +853,7 @@ public class ProfileFragment extends Fragment {
                     Map<String, DataPart> params = new HashMap<>();
                     // file name could found file base or direct access from real path
                     // for now just get bitmap data from ImageView
-                    params.put("avatar", new DataPart(mSelectedFilePath.substring(mSelectedFilePath.lastIndexOf("/") + 1),
+                    params.put("staff_img", new DataPart(mSelectedFilePath.substring(mSelectedFilePath.lastIndexOf("/") + 1),
                             AppHelper.readBytesFromFile(mSelectedFilePath)));
                     return params;
                 }
@@ -755,12 +866,6 @@ public class ProfileFragment extends Fragment {
                     return params;
                 }
 
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("userid", "" + UserUtils.getInstance().getUserID(mContext));
-                    return params;
-                }
 
             };
 
